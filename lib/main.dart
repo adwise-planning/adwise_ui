@@ -48,7 +48,7 @@ class WelcomeScreen extends StatelessWidget {
               ),
               SizedBox(height: screenHeight * 0.03),
               Text(
-                'Welcome to AddWise!',
+                'Welcome to AdWise!',
                 style: TextStyle(
                   fontSize: screenHeight * 0.03,
                   fontWeight: FontWeight.bold,
