@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'home.dart'; // Import the Home file
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  const Login({super.key});
 
   @override
   State<Login> createState() => _LoginState();
