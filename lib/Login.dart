@@ -1,5 +1,5 @@
+import 'package:adwise/chatscreen.dart';
 import 'package:flutter/material.dart';
-import 'home.dart'; // Import the Home file
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -38,9 +38,12 @@ class _LoginState extends State<Login> {
     validatePassword(_passwordController.text);
 
     if (_emailError == null && _passwordError == null) {
+      // Navigate to the ChatScreen on successful login
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const Home()),
+        MaterialPageRoute(
+          builder: (context) => ChatScreen(username: _emailController.text, status: '', authToken: '',), // Pass the username or other details
+        ),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
