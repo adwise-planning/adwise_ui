@@ -204,7 +204,7 @@ void main() => runApp(const MaterialApp(
       home: ChatScreen(
         username: 'HB',
         status: 'Online',
-        authToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiSEIiLCJleHAiOjE3MzczOTQwMTN9.ZnuxjYpe171utd81CMFiTOO6AcYx8mM-PKMmcqGalPY', // Pass your auth token
+        authToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiSEIiLCJleHAiOjE3Mzc0ODU0NjV9.KDxKTNbgee2Wxk8ASnrWm1-8LINVhgVO79jt-UmWG6I', // Pass your auth token
       ),
       debugShowCheckedModeBanner: false,
     ));

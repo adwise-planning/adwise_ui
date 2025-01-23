@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'dart:html'; // Web-specific WebSocket support
 import 'package:flutter/material.dart';
 
-class ChatScreen extends StatefulWidget {
+class ChatScreenWeb extends StatefulWidget {
   final String username;
   final String status;
   final String authToken; // Authorization token
 
-  const ChatScreen({
+  const ChatScreenWeb({
     super.key,
     required this.username,
     required this.status,
@@ -18,7 +18,7 @@ class ChatScreen extends StatefulWidget {
   ChatScreenState createState() => ChatScreenState();
 }
 
-class ChatScreenState extends State<ChatScreen> {
+class ChatScreenState extends State<ChatScreenWeb> {
   final TextEditingController _messageController = TextEditingController();
   final List<Map<String, dynamic>> _messages = []; // Store messages with metadata
 
@@ -113,9 +113,29 @@ class ChatScreenState extends State<ChatScreen> {
           ],
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.video_call)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.call)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
+          IconButton(
+            onPressed: () {}, 
+            icon: const Icon(
+              Icons.video_call,
+              color: Colors.white,
+              size: 28, // Make the icon slightly larger if needed
+            ),
+          ),
+          IconButton(
+            onPressed: () {}, 
+            icon: const Icon(
+              Icons.call,
+              color: Colors.white,
+              size: 28, // Same for the audio call icon
+            ),
+          ),
+          IconButton(
+            onPressed: () {}, 
+            icon: const Icon(
+              Icons.more_vert,
+              color: Colors.white,
+            ),
+          ),
         ],
       ),
       body: Column(
@@ -197,11 +217,11 @@ class ChatScreenState extends State<ChatScreen> {
   }
 }
 
-void main() => runApp(const MaterialApp(
+/*void main() => runApp(const MaterialApp(
       home: ChatScreen(
         username: 'HB',
         status: 'Online',
-        authToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiSEIiLCJleHAiOjE3MzczOTQwMTN9.ZnuxjYpe171utd81CMFiTOO6AcYx8mM-PKMmcqGalPY', // Pass your auth token
+        authToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiSEIiLCJleHAiOjE3Mzc0ODU0NjV9.KDxKTNbgee2Wxk8ASnrWm1-8LINVhgVO79jt-UmWG6I', // Pass your auth token
       ),
       debugShowCheckedModeBanner: false,
-    ));
+    ));*/

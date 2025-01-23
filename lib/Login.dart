@@ -1,5 +1,5 @@
-import 'package:adwise/chatscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:adwise/chatscreen_web.dart'; // Import the chatscreen_web.dart
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -38,11 +38,15 @@ class _LoginState extends State<Login> {
     validatePassword(_passwordController.text);
 
     if (_emailError == null && _passwordError == null) {
-      // Navigate to the ChatScreen on successful login
+      // Navigate to ChatScreenWeb on successful login
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => ChatScreen(username: _emailController.text, status: '', authToken: '',), // Pass the username or other details
+          builder: (context) => ChatScreenWeb(
+            username: _emailController.text, // Pass username from email
+            status: 'Online',               // Set status dynamically
+            authToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiSEIiLCJleHAiOjE3Mzc0ODU0NjV9.KDxKTNbgee2Wxk8ASnrWm1-8LINVhgVO79jt-UmWG6I', // Replace with real token
+          ),
         ),
       );
     } else {
