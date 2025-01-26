@@ -26,18 +26,22 @@ MERGED from C:\Users\Himanshu Badhai\Code Repository\adwise_ui\android\app\src\m
 INJECTED from C:\Users\Himanshu Badhai\Code Repository\adwise_ui\android\app\src\debug\AndroidManifest.xml:1:1-7:12
 INJECTED from C:\Users\Himanshu Badhai\Code Repository\adwise_ui\android\app\src\debug\AndroidManifest.xml:1:1-7:12
 INJECTED from C:\Users\Himanshu Badhai\Code Repository\adwise_ui\android\app\src\debug\AndroidManifest.xml:1:1-7:12
+MERGED from [:battery_plus] C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\battery_plus\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:device_info_plus] C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\device_info_plus\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:network_info_plus] C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\network_info_plus\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-10:12
+MERGED from [:package_info_plus] C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\package_info_plus\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.fragment:fragment:1.7.1] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\7799b48b7fd3b8774825c296dd579627\transformed\fragment-1.7.1\AndroidManifest.xml:2:1-7:12
-MERGED from [androidx.window:window:1.2.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\49ca8dca74d3fdc122073b7a5974c5d0\transformed\jetified-window-1.2.0\AndroidManifest.xml:17:1-31:12
-MERGED from [androidx.window:window-java:1.2.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\59bb600599ffc39d52050250ec56e1ed\transformed\jetified-window-java-1.2.0\AndroidManifest.xml:17:1-21:12
 MERGED from [androidx.activity:activity:1.8.1] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\79ec32d8a10e17b411b21d078bbf9fd2\transformed\jetified-activity-1.8.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.loader:loader:1.0.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\34ab3ec2bbdc90725d5b2187276f6ce5\transformed\loader-1.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\1d251d30f364994fc838e20a97bbec7f\transformed\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.7.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\170cd53763ba8f7adb4146db3d69b874\transformed\jetified-lifecycle-livedata-core-ktx-2.7.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.7.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\acc71736c9cd2e1ac61f7931b10b068a\transformed\lifecycle-livedata-2.7.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.7.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\ac4d71d3da5bf20d2759902ba132196e\transformed\lifecycle-viewmodel-2.7.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.7.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\65ce53a4ddfdb59a5b397e30d838cf99\transformed\lifecycle-livedata-core-2.7.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\03aed728b7b013fdb0ee78eeb01c4f70\transformed\jetified-lifecycle-viewmodel-savedstate-2.7.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.core:core-ktx:1.13.1] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\50387cd88c023d005c13721cd1e42893\transformed\jetified-core-ktx-1.13.1\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.window:window:1.2.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\49ca8dca74d3fdc122073b7a5974c5d0\transformed\jetified-window-1.2.0\AndroidManifest.xml:17:1-31:12
+MERGED from [androidx.window:window-java:1.2.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\59bb600599ffc39d52050250ec56e1ed\transformed\jetified-window-java-1.2.0\AndroidManifest.xml:17:1-21:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\1d251d30f364994fc838e20a97bbec7f\transformed\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.customview:customview:1.0.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\543caab3c03b62ac3233385c1d02f511\transformed\customview-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.core:core:1.13.1] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\9560b4392b8a1575165d2e7541c36546\transformed\core-1.13.1\AndroidManifest.xml:17:1-30:12
 MERGED from [androidx.lifecycle:lifecycle-runtime:2.7.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\b2a4352c1156d2493282fb6c6534b9de\transformed\lifecycle-runtime-2.7.0\AndroidManifest.xml:2:1-7:12
@@ -80,18 +84,20 @@ uses-sdk
 INJECTED from C:\Users\Himanshu Badhai\Code Repository\adwise_ui\android\app\src\debug\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\Himanshu Badhai\Code Repository\adwise_ui\android\app\src\debug\AndroidManifest.xml
 INJECTED from C:\Users\Himanshu Badhai\Code Repository\adwise_ui\android\app\src\debug\AndroidManifest.xml
+MERGED from [:battery_plus] C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\battery_plus\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:battery_plus] C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\battery_plus\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:device_info_plus] C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\device_info_plus\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:device_info_plus] C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\device_info_plus\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:network_info_plus] C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\network_info_plus\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:network_info_plus] C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\network_info_plus\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:package_info_plus] C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\package_info_plus\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:package_info_plus] C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\package_info_plus\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [androidx.fragment:fragment:1.7.1] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\7799b48b7fd3b8774825c296dd579627\transformed\fragment-1.7.1\AndroidManifest.xml:5:5-44
 MERGED from [androidx.fragment:fragment:1.7.1] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\7799b48b7fd3b8774825c296dd579627\transformed\fragment-1.7.1\AndroidManifest.xml:5:5-44
-MERGED from [androidx.window:window:1.2.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\49ca8dca74d3fdc122073b7a5974c5d0\transformed\jetified-window-1.2.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.window:window:1.2.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\49ca8dca74d3fdc122073b7a5974c5d0\transformed\jetified-window-1.2.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.window:window-java:1.2.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\59bb600599ffc39d52050250ec56e1ed\transformed\jetified-window-java-1.2.0\AndroidManifest.xml:19:5-44
-MERGED from [androidx.window:window-java:1.2.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\59bb600599ffc39d52050250ec56e1ed\transformed\jetified-window-java-1.2.0\AndroidManifest.xml:19:5-44
 MERGED from [androidx.activity:activity:1.8.1] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\79ec32d8a10e17b411b21d078bbf9fd2\transformed\jetified-activity-1.8.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.activity:activity:1.8.1] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\79ec32d8a10e17b411b21d078bbf9fd2\transformed\jetified-activity-1.8.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.loader:loader:1.0.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\34ab3ec2bbdc90725d5b2187276f6ce5\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.loader:loader:1.0.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\34ab3ec2bbdc90725d5b2187276f6ce5\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\1d251d30f364994fc838e20a97bbec7f\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\1d251d30f364994fc838e20a97bbec7f\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.7.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\170cd53763ba8f7adb4146db3d69b874\transformed\jetified-lifecycle-livedata-core-ktx-2.7.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.7.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\170cd53763ba8f7adb4146db3d69b874\transformed\jetified-lifecycle-livedata-core-ktx-2.7.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.7.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\acc71736c9cd2e1ac61f7931b10b068a\transformed\lifecycle-livedata-2.7.0\AndroidManifest.xml:20:5-44
@@ -104,6 +110,12 @@ MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0] C:\Users\H
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\03aed728b7b013fdb0ee78eeb01c4f70\transformed\jetified-lifecycle-viewmodel-savedstate-2.7.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.core:core-ktx:1.13.1] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\50387cd88c023d005c13721cd1e42893\transformed\jetified-core-ktx-1.13.1\AndroidManifest.xml:5:5-44
 MERGED from [androidx.core:core-ktx:1.13.1] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\50387cd88c023d005c13721cd1e42893\transformed\jetified-core-ktx-1.13.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.window:window:1.2.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\49ca8dca74d3fdc122073b7a5974c5d0\transformed\jetified-window-1.2.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.window:window:1.2.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\49ca8dca74d3fdc122073b7a5974c5d0\transformed\jetified-window-1.2.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.window:window-java:1.2.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\59bb600599ffc39d52050250ec56e1ed\transformed\jetified-window-java-1.2.0\AndroidManifest.xml:19:5-44
+MERGED from [androidx.window:window-java:1.2.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\59bb600599ffc39d52050250ec56e1ed\transformed\jetified-window-java-1.2.0\AndroidManifest.xml:19:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\1d251d30f364994fc838e20a97bbec7f\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\1d251d30f364994fc838e20a97bbec7f\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.customview:customview:1.0.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\543caab3c03b62ac3233385c1d02f511\transformed\customview-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.customview:customview:1.0.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\543caab3c03b62ac3233385c1d02f511\transformed\customview-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.core:core:1.13.1] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\9560b4392b8a1575165d2e7541c36546\transformed\core-1.13.1\AndroidManifest.xml:20:5-44
@@ -136,6 +148,14 @@ MERGED from [com.getkeepsafe.relinker:relinker:1.4.5] C:\Users\Himanshu Badhai\.
 		INJECTED from C:\Users\Himanshu Badhai\Code Repository\adwise_ui\android\app\src\debug\AndroidManifest.xml
 	android:minSdkVersion
 		INJECTED from C:\Users\Himanshu Badhai\Code Repository\adwise_ui\android\app\src\debug\AndroidManifest.xml
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [:network_info_plus] C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\network_info_plus\intermediates\merged_manifest\debug\AndroidManifest.xml:7:5-79
+	android:name
+		ADDED from [:network_info_plus] C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\network_info_plus\intermediates\merged_manifest\debug\AndroidManifest.xml:7:22-76
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from [:network_info_plus] C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\network_info_plus\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-76
+	android:name
+		ADDED from [:network_info_plus] C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\network_info_plus\intermediates\merged_manifest\debug\AndroidManifest.xml:8:22-73
 uses-library#androidx.window.extensions
 ADDED from [androidx.window:window:1.2.0] C:\Users\Himanshu Badhai\.gradle\caches\transforms-3\49ca8dca74d3fdc122073b7a5974c5d0\transformed\jetified-window-1.2.0\AndroidManifest.xml:23:9-25:40
 	android:required

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:adwise/chatscreen_web.dart'; // Import the chatscreen_web.dart
+import 'package:adwise/chatscreen.dart'; // Import the chatscreen_web.dart
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -42,7 +42,7 @@ class _LoginState extends State<Login> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => ChatScreenWeb(
+          builder: (context) => ChatScreen(
             username: _emailController.text, // Pass username from email
             status: 'Online',               // Set status dynamically
             authToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiSEIiLCJleHAiOjE3Mzc0ODU0NjV9.KDxKTNbgee2Wxk8ASnrWm1-8LINVhgVO79jt-UmWG6I', // Replace with real token

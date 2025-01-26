@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'dart:convert';
 import 'dart:io'; // For WebSocket with headers
 // import 'package:web_socket_channel/web_socket_channel.dart';

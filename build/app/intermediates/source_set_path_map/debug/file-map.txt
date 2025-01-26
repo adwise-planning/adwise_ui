@@ -25,3 +25,7 @@ com.example.adwise.app-resValues-23 C:\Users\Himanshu Badhai\Code Repository\adw
 com.example.adwise.app-packageDebugResources-24 C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\app\intermediates\incremental\debug\packageDebugResources\merged.dir
 com.example.adwise.app-packageDebugResources-25 C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\app\intermediates\incremental\debug\packageDebugResources\stripped.dir
 com.example.adwise.app-merged_res-26 C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\app\intermediates\merged_res\debug
+com.example.adwise.app-packaged_res-27 C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\battery_plus\intermediates\packaged_res\debug
+com.example.adwise.app-packaged_res-28 C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\device_info_plus\intermediates\packaged_res\debug
+com.example.adwise.app-packaged_res-29 C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\network_info_plus\intermediates\packaged_res\debug
+com.example.adwise.app-packaged_res-30 C:\Users\Himanshu Badhai\Code Repository\adwise_ui\build\package_info_plus\intermediates\packaged_res\debug
