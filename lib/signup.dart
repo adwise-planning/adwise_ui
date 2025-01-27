@@ -1,16 +1,11 @@
 // ignore_for_file: camel_case_types, avoid_print
 
 import 'dart:convert'; // For JSON encoding/decoding
+import 'package:adwise/Home.dart';
+import 'package:adwise/deviceinfo.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:http/http.dart' as http;
-import 'dart:io';
-import 'package:battery_plus/battery_plus.dart';
-import 'package:network_info_plus/network_info_plus.dart';
-// import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-//import 'package:telephony/telephony.dart';
 
 class signup extends StatefulWidget {
   const signup({super.key});
@@ -26,7 +21,8 @@ class _signupState extends State<signup> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _zipcodeController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController(); // Password controller
+  final TextEditingController _passwordController =
+      TextEditingController(); // Password controller
 
   String _selectedCountryCode = '+1'; // Default country code
   String _selectedCountry = 'United States'; // Default country
@@ -97,86 +93,10 @@ class _signupState extends State<signup> {
     setState(() {
       _passwordError = value.isEmpty
           ? 'Password is required'
-          : (value.length < 6 ? 'Password must be at least 6 characters' : null);
+          : (value.length < 6
+              ? 'Password must be at least 6 characters'
+              : null);
     });
-  }
-
-  Future<Map<String, dynamic>> _getDeviceInfo() async {
-    final deviceInfo = DeviceInfoPlugin();
-    final battery = Battery();
-    final networkInfo = NetworkInfo();
-    // final connectivity = Connectivity();
-    final packageInfo = await PackageInfo.fromPlatform();
-
-    String deviceId = "Unknown";
-    String name = "Unknown";
-    String manufacturer = "Unknown";
-    String model = "Unknown";
-    String osVersion = "Unknown";
-    String serialNumber = "Unknown";
-    String hardwareVersion = "Unknown";
-    String processor = "Unknown";
-    int memory = 0;
-    int storageCapacity = 0;
-    String ip = "Unknown";
-    String macAddress = "Unknown";
-    String connectivityType = "Unknown";
-    int batteryLevel = 0;
-
-    print(Platform);
-
-    if (Platform.isAndroid) {
-      final androidInfo = await deviceInfo.androidInfo;
-      deviceId = androidInfo.id;
-      name = androidInfo.device;
-      manufacturer = androidInfo.manufacturer;
-      model = androidInfo.model;
-      osVersion = "Android ${androidInfo.version.release}";
-      serialNumber = androidInfo.serialNumber;
-      hardwareVersion = androidInfo.hardware;
-      memory = androidInfo.systemFeatures.length; // Example for memory
-    } else if (Platform.isIOS) {
-      final iosInfo = await deviceInfo.iosInfo;
-      deviceId = iosInfo.identifierForVendor ?? "Unknown";
-      name = iosInfo.name;
-      manufacturer = "Apple";
-      model = iosInfo.utsname.machine;
-      osVersion = iosInfo.systemVersion;
-      serialNumber = "N/A"; // Serial numbers are restricted on iOS
-      hardwareVersion = iosInfo.systemName;
-    }
-
-    // Battery Info
-    batteryLevel = await battery.batteryLevel;
-
-    // Network Info
-    ip = await networkInfo.getWifiIP() ?? "Unknown";
-    macAddress = await networkInfo.getWifiBSSID() ?? "Unknown";
-
-    return {
-      'device_id': deviceId,
-      'name': name,
-      'type': Platform.operatingSystem,
-      'manufacturer': manufacturer,
-      'model': model,
-      'serial_number': serialNumber,
-      'imei': Platform.isAndroid ? (await deviceInfo.androidInfo).id : "N/A",
-      'firmware': osVersion,
-      'hardware_version': hardwareVersion,
-      'software_version': packageInfo.version,
-      'operating_system': osVersion,
-      'processor': processor,
-      'memory': memory,
-      'storage_capacity': storageCapacity,
-      'battery_level': batteryLevel,
-      'ip_address': ip,
-      'mac_address': macAddress,
-      'connectivity_type': connectivityType,
-      'status': "Active",
-      'last_seen': DateTime.now().toIso8601String(),
-      'created_at': DateTime.now().toIso8601String(),
-      'updated_at': DateTime.now().toIso8601String(),
-    };
   }
 
   Future<void> _handleSignUp() async {
@@ -196,26 +116,37 @@ class _signupState extends State<signup> {
         _phoneError == null &&
         _passwordError == null) {
       try {
-        final deviceInfo = await _getDeviceInfo();
-        
-        final url = Uri.parse('https://your-backend.com/api/signup'); // Replace with your API endpoint
-        
-        final body = {
+        final deviceInfo = await DeviceInfo().getDeviceInfo();
+
+        final url = Uri.parse(
+            'https://websocket-server-7y5w.onrender.com/register'); // Replace with your API endpoint
+
+        final user_data = {
+          'username': _emailController.text.trim(),
+          'password': _passwordController.text.trim(), // Include password here
           'first_name': _firstNameController.text.trim(),
           'last_name': _lastNameController.text.trim(),
           'email': _emailController.text.trim(),
-          'password': _passwordController.text.trim(), // Include password here
-          'dob': _dobController.text.trim(),
+          'address_line_1': '123 Main St',
+          'address_line_2': 'Apt 101',
+          'city': 'New York',
+          'state': 'NY',
+          'date_of_birth': _dobController.text.trim(),
           'country': _selectedCountry,
-          'zipcode': _zipcodeController.text.trim(),
-          'phone': '$_selectedCountryCode${_phoneNumberController.text.trim()}',
+          'zip_code': _zipcodeController.text.trim(),
+          'phone_country_code': _selectedCountryCode,
+          'phone_number': '$_selectedCountryCode${_phoneNumberController.text.trim()}'
+        };
+
+
+        final device_data = {
           'device_id': deviceInfo['device_id'],
           'name': deviceInfo['name'],
           'type': deviceInfo['type'],
           'manufacturer': deviceInfo['manufacturer'],
           'model': deviceInfo['model'],
           'serial_number': deviceInfo['serial_number'],
-          'imei': deviceInfo['imei'],
+          'imei': deviceInfo['imei'], // To be added to database and backend
           'firmware': deviceInfo['firmware'],
           'hardware_version': deviceInfo['hardware_version'],
           'software_version': deviceInfo['software_version'],
@@ -226,11 +157,14 @@ class _signupState extends State<signup> {
           'battery_level': deviceInfo['battery_level'],
           'ip_address': deviceInfo['ip_address'],
           'mac_address': deviceInfo['mac_address'],
-          'connectivity_type': deviceInfo['connectivity_type'],
+          'connectivity_type': deviceInfo[
+              'connectivity_type'] // To be added to database and backend
         };
-        
-        print(body);
-        
+
+        final body = {'user': user_data, 'device': device_data};
+
+        print("Request Body: $body");
+
         final response = await http.post(
           url,
           headers: {
@@ -239,20 +173,33 @@ class _signupState extends State<signup> {
           body: jsonEncode(body),
         );
 
+        print("Response Status: ${response.statusCode}");
+        print("Response Body: ${response.body}");
+
         if (response.statusCode == 201) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Welcome to Adwise!')),
           );
-          Navigator.pop(context); // Navigate to login or another screen
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Home(),
+            ),
+          );
+
+          // Navigator.pushReplacementNamed(context, '/home'); // Navigate to home page
         } else {
           final responseData = jsonDecode(response.body);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(responseData['message'] ?? 'Signup failed'),
+              content: Text(
+                  responseData['message'] ?? 'Signup failed, Contact support'),
             ),
           );
         }
       } catch (e) {
+        print("Error: $e");
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('An error occurred. Please try again.')),
         );
@@ -408,13 +355,14 @@ class _signupState extends State<signup> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 24, width:100),
+                const SizedBox(height: 24, width: 100),
                 ElevatedButton(
                   onPressed: _handleSignUp,
                   style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white, backgroundColor: Colors.blueAccent, // Text color
-                ),
-                child: const Text('Create Account'),
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.blueAccent, // Text color
+                  ),
+                  child: const Text('Create Account'),
                 ),
               ],
             ),

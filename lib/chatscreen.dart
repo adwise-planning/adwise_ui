@@ -74,7 +74,7 @@ class ChatScreenState extends State<ChatScreen> {
     if (message.isNotEmpty && _socket != null) {
       final messageData = {
         'sender_id': widget.username,
-        'recipient_id': 'HB', // Replace with dynamic receiver or chat group
+        'recipient_id': 'gen.z@gmail.com', // Replace with dynamic receiver or chat group
         'content': message,
         'timestamp': DateTime.now().toIso8601String(),
       };
