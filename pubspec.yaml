@@ -1,5 +1,5 @@
-name: adwise
-description: "A new Flutter project."
+name: Adwise
+description: "Connect advisors to people"
 
 # Prevent accidental publishing to pub.dev.
 publish_to: 'none'
@@ -10,27 +10,21 @@ environment:
   sdk: ^3.6.0
 
 dependencies:
-  dropdown_search: ^6.0.1
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.5
-  web_socket_channel: ^3.0.1
-  flutter_localizations:
-    sdk: flutter
-  intl: ^0.19.0
-  device_info_plus: ^11.2.1
-  http: ^1.3.0
-  battery_plus: ^6.2.1
-  network_info_plus: ^6.1.3
-  # connectivity_plus: ^6.1.2
-  package_info_plus: ^8.1.3
-  # telephony: ^0.2.0
+  flutter_riverpod: ^2.3.6      # State management
+  go_router: ^11.0.0           # Navigation
+  web_socket_channel: ^2.4.0   # Real-time chat
+  hive: ^2.2.3                 # Local caching
+  hive_flutter: ^1.1.0         # Hive + Flutter integration
+  intl: ^0.18.1                # Date formatting
+  uuid: ^3.0.7                 # Generate unique IDs
+  country_flags: ^3.0.0       # Country flags for phone number input
 
 dev_dependencies:
+  flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
-
-  flutter_lints: ^5.0.0
 
 flutter:
   fonts:
