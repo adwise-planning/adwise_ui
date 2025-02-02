@@ -22,7 +22,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool _isPhoneLogin = true; // Toggle between phone & email login
   bool _isLoading = false;
 
-
   @override
   void dispose() {
     _phoneController.dispose();
@@ -32,11 +31,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
-
+    ref.read(authProvider.notifier).setContext(context);
     final authState = ref.watch(authProvider);
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
 
     //   return Scaffold(
     return GestureDetector(
@@ -216,7 +216,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         //    style: TextStyle(fontSize: 16),
                         : Text(
                             _isPhoneLogin ? 'Send OTP' : 'Login',
-                            style: const TextStyle(fontSize: 16),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: isDarkMode
+                                  ? AppConstants.primaryColor
+                                  : Colors.white,
+                            ),
                           ),
                   ),
                 ),

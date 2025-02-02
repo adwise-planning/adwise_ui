@@ -1,5 +1,5 @@
 import 'package:Adwise/core/constants/app_constants.dart';
-import 'package:Adwise/presentation/screens/auth/login_screen.dart';
+import 'package:Adwise/core/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/theme/app_theme.dart';
@@ -13,11 +13,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: AppConstants.appName,
       theme: lightTheme,
       darkTheme: darkTheme,
-      home: const LoginScreen(), // We'll create this next
+      routerConfig: router,
     );
   }
 }
