@@ -1,6 +1,6 @@
 
 import 'package:Adwise/core/constants/app_constants.dart';
-import 'package:Adwise/domain/providers/auth_provider.dart';
+import 'package:Adwise/core/services/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -107,7 +107,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                         )
                       : const Text(
                           'Verify OTP',
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(color: Colors.white ,fontSize: 16),
                         ),
                 ),
               ),

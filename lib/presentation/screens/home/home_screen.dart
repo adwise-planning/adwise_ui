@@ -1,6 +1,7 @@
 import 'package:Adwise/core/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -57,6 +58,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           ),
         ],
         bottom: TabBar(
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.white60,
+          labelStyle : TextStyle(fontSize: 16, color: Colors.white),
           controller: _tabController,
           tabs: const [
             Tab(text: 'Chats'),
@@ -131,17 +135,17 @@ class ChatsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 10, // Mock data
+      itemCount: 5, // Mock data
       itemBuilder: (context, index) {
         return ListTile(
           leading: const CircleAvatar(
-            backgroundImage: AssetImage('assets/default_avatar.png'),
+            backgroundImage: AssetImage('default_avatar.png'),
           ),
           title: Text('Chat ${index + 1}'),
           subtitle: const Text('Last message...'),
           trailing: const Text('10:00 AM'),
           onTap: () {
-            // TODO: Navigate to chat screen
+            context.push('/chat/chat$index', extra: 'User ${index + 1}');
           },
         );
       },
@@ -159,7 +163,7 @@ class StatusTab extends StatelessWidget {
       itemBuilder: (context, index) {
         return ListTile(
           leading: const CircleAvatar(
-            backgroundImage: AssetImage('assets/default_avatar.png'),
+            backgroundImage: AssetImage('default_avatar.png'),
           ),
           title: Text('Status ${index + 1}'),
           subtitle: const Text('Just now'),
@@ -182,7 +186,7 @@ class CallsTab extends StatelessWidget {
       itemBuilder: (context, index) {
         return ListTile(
           leading: const CircleAvatar(
-            backgroundImage: AssetImage('assets/default_avatar.png'),
+            backgroundImage: AssetImage('default_avatar.png'),
           ),
           title: Text('Call ${index + 1}'),
           subtitle: const Text('Yesterday'),

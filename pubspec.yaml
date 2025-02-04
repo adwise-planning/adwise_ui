@@ -13,16 +13,18 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_riverpod: ^2.3.6      # State management
-  go_router: ^11.0.0           # Navigation
-  web_socket_channel: ^2.4.0   # Real-time chat
-  hive: ^2.2.3                 # Local caching
-  hive_flutter: ^1.1.0         # Hive + Flutter integration
-  intl: ^0.18.1                # Date formatting
-  uuid: ^3.0.7                 # Generate unique IDs
-  country_flags: ^3.0.0       # Country flags for phone number input
+  go_router: ^14.7.2            # Navigation
+  web_socket_channel: ^3.0.2    # Real-time chat
+  hive: ^2.2.3                  # Local caching
+  hive_flutter: ^1.1.0          # Hive + Flutter integration
+  intl: ^0.20.2                 # Date formatting
+  uuid: ^4.5.1                  # Generate unique IDs
+  country_flags: ^3.0.0         # Country flags for phone number input
+  logger: ^2.0.2+1              # Logging package
+  path_provider: ^2.1.1         # File storage for log
 
 dev_dependencies:
-  flutter_lints: ^2.0.0
+  flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
 

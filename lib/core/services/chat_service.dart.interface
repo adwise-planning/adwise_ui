@@ -1,0 +1,11 @@
+import 'package:Adwise/core/services/chat_service_web.dart';
+//import 'package:Adwise/core/services/chat_service_mobile.dart';
+
+import 'chat_service_interface.dart'
+    if (dart.library.html) 'chat_service_web.dart'
+    if (dart.library.io) 'chat_service_mobile.dart';
+
+ChatServiceInterface getChatService() => ChatServiceWeb(); // Web
+
+//ChatServiceInterface getChatService() => ChatServiceIO(); // Mobile/Desktop
+

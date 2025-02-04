@@ -1,0 +1,62 @@
+import 'dart:async';
+import 'dart:html';
+//import 'chat_service_interface.dart';
+import 'package:Adwise/core/services/logger_service.dart';
+
+class ChatService {
+  WebSocket? _webSocket;
+  final StreamController<String> _messageController =
+      StreamController<String>.broadcast();
+
+  Stream<String> get messageStream => _messageController.stream;
+
+  final logger = AppLogger();
+  final String token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imdlbi55QGdtYWlsLmNvbSIsImRldmljZV9pZCI6IngwXzJLMjJQUyIsImVtYWlsIjoiZ2VuLnlAZ21haWwuY29tIiwiZXhwIjoxNzM4NzIwMzg0LCJpYXQiOjE3Mzg2MzQxODJ9.tSsE2KYpjT_L8Ntcq5hzyuZ6yk0KdOVoQ_U8M_JKq2o';
+
+  @override
+  void connect(String authToken) {
+    try {
+      authToken = authToken.isEmpty ? token : authToken;
+      final url = 'wss://websocket-server-7y5w.onrender.com/ws?token=$authToken';
+
+      logger.info('Connecting to WebSocket server at: $url');
+
+      _webSocket = WebSocket(url);
+      _webSocket!.onMessage.listen((event) {
+        logger.info('Received message: ${event.data}');
+        _messageController.add(event.data);
+      });
+
+      _webSocket!.onError.listen((event) {
+        logger.error('WebSocket Error: $event');
+        _messageController.addError('WebSocket error: $event');
+      });
+
+      _webSocket!.onClose.listen((event) {
+        logger.warn('WebSocket connection closed.');
+        _messageController.close();
+      });
+
+      logger.info('WebSocket connected successfully (Web).');
+    } catch (e) {
+      logger.error('Failed to connect to WebSocket: $e');
+      _messageController.addError('Connection failed: $e');
+    }
+  }
+
+  @override
+  void sendMessage(String message) {
+    if (_webSocket != null && _webSocket!.readyState == WebSocket.OPEN) {
+      logger.info('Sending message: $message');
+      _webSocket!.send(message);
+    } else {
+      logger.warn('Cannot send message, WebSocket is not connected.');
+    }
+  }
+
+  @override
+  void disconnect() {
+    _webSocket?.close();
+    _messageController.close();
+  }
+}

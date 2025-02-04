@@ -1,5 +1,5 @@
 import 'package:Adwise/core/constants/app_constants.dart';
-import 'package:Adwise/domain/providers/auth_provider.dart';
+import 'package:Adwise/core/services/auth_provider.dart';
 import 'package:Adwise/presentation/screens/auth/login_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,7 +18,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   String _selectedCountryCode = '+1'; // Default country code
   bool _isPhoneLogin = true; // Toggle between phone & email login
-  bool _isLoading = false;
 
   @override
   void dispose() {
