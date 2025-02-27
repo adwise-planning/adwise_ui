@@ -36,7 +36,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
-              // TODO: Implement search functionality
+              // TO DO: Implement search functionality
             },
           ),
           PopupMenuButton(
@@ -52,7 +52,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
             ],
             onSelected: (value) {
               if (value == 'logout') {
-                // TODO: Implement logout functionality
+                // TO DO: Implement logout functionality
               }
             },
           ),
@@ -79,7 +79,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO: Implement new chat functionality
+          // TO DO: Implement new chat functionality
         },
         backgroundColor: AppConstants.accentColor,
         child: const Icon(Icons.chat),
@@ -93,7 +93,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                 color: AppConstants.primaryColor,
               ),
               child: Text(
-                'WhatsApp Clone',
+                'Adwise',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,
@@ -104,21 +104,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               leading: const Icon(Icons.person),
               title: const Text('Profile'),
               onTap: () {
-                // TODO: Navigate to profile screen
+                // TO DO: Navigate to profile screen
               },
             ),
             ListTile(
               leading: const Icon(Icons.settings),
               title: const Text('Settings'),
               onTap: () {
-                // TODO: Navigate to settings screen
+                // TO DO: Navigate to settings screen
               },
             ),
             ListTile(
               leading: const Icon(Icons.logout),
               title: const Text('Logout'),
               onTap: () {
-                // TODO: Implement logout functionality
+                // TO DO: Implement logout functionality
               },
             ),
           ],
@@ -131,21 +131,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 // Placeholder widgets for tabs
 class ChatsTab extends StatelessWidget {
   const ChatsTab({super.key});
-
+  final mock_user = 'gen.y@gmail.com';
+  final mock_name = 'Gen Y';
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 5, // Mock data
+      itemCount: 1, // Mock data
       itemBuilder: (context, index) {
         return ListTile(
           leading: const CircleAvatar(
             backgroundImage: AssetImage('default_avatar.png'),
           ),
-          title: Text('Chat ${index + 1}'),
-          subtitle: const Text('Last message...'),
+          title: Text(mock_name),
+          subtitle: const Text('Last message'),
           trailing: const Text('10:00 AM'),
           onTap: () {
-            context.push('/chat/chat$index', extra: 'User ${index + 1}');
+            context.push('/chat/$mock_user', extra: 'User ${index + 1}');
           },
         );
       },
@@ -168,7 +169,7 @@ class StatusTab extends StatelessWidget {
           title: Text('Status ${index + 1}'),
           subtitle: const Text('Just now'),
           onTap: () {
-            // TODO: Navigate to status screen
+            // TO DO: Navigate to status screen
           },
         );
       },
@@ -192,7 +193,7 @@ class CallsTab extends StatelessWidget {
           subtitle: const Text('Yesterday'),
           trailing: const Icon(Icons.call),
           onTap: () {
-            // TODO: Implement call functionality
+            // TO DO: Implement call functionality
           },
         );
       },

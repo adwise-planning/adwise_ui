@@ -1,19 +1,24 @@
 import 'package:Adwise/core/constants/app_constants.dart';
 import 'package:Adwise/core/services/chat_service_web.dart';
+import 'package:Adwise/core/services/logger_service.dart';
 import 'package:Adwise/core/widgets/text_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+ 
 class ChatScreen extends ConsumerStatefulWidget {
   final String chatId;
   final String recipientName;
   final String authToken;
+  final String userId;
+
 
   const ChatScreen({
     super.key,
     required this.chatId,
     required this.recipientName,
     required this.authToken,
+    required this.userId,
   });
 
   @override
@@ -24,13 +29,25 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   final _messageController = TextEditingController();
   final _scrollController = ScrollController();
   late ChatService _chatService;
+  final logger = AppLogger();
   
+  List<Map<String, dynamic>> _messages = []; // List to store messages
 
   @override
   void initState() {
     super.initState();
     _chatService = ChatService();
+    print("Chat screen initialized with chatId: ${widget.chatId}, recipientName: ${widget.recipientName}, authToken: ${widget.authToken}, userId: ${widget.userId}");
+
     _chatService.connect(widget.authToken);
+
+    // Listen for incoming messages
+    _chatService.messageStream.listen((message) {
+      setState(() {
+        _messages.add(message); // Store incoming messages
+      });
+      _scrollToBottom();
+    });
   }
 
   @override
@@ -42,9 +59,26 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   }
 
   void _sendMessage() {
-    final message = _messageController.text.trim();
-    if (message.isNotEmpty) {
-      _chatService.sendMessage('gen.z@gmail.com','gen.y@gmail.com', message);
+    print("Chat screen initialized with chatId: ${widget.chatId}, recipientName: ${widget.recipientName}, authToken: ${widget.authToken}, userId: ${widget.userId}");
+    final messageText = _messageController.text.trim();
+    if (messageText.isNotEmpty) {
+      final message = {
+        'sender_id': widget.userId,
+        'recipient_id': widget.chatId, // Use chatId as recipientId
+        'content': messageText,
+        'timestamp': DateTime.now().toIso8601String(),
+      };
+
+      _chatService.sendMessage(
+        widget.userId,
+        widget.chatId,
+        messageText,
+      );
+
+      setState(() {
+        _messages.add(message); // Add sent message
+      });
+
       _messageController.clear();
       _scrollToBottom();
     }
@@ -64,6 +98,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("Chat screen initialized with chatId: ${widget.chatId}, recipientName: ${widget.recipientName}, authToken: ${widget.authToken}, userId: ${widget.userId}");
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
@@ -75,54 +110,32 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
         children: [
           // Message List
           Expanded(
-            child: StreamBuilder(
-              stream: _chatService.messageStream,
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Center(
+            child: ListView.builder(
+              controller: _scrollController,
+              padding: const EdgeInsets.all(16),
+              itemCount: _messages.length,
+              itemBuilder: (context, index) {
+                final message = _messages[index];
+                final isMe = message['sender_id'] == widget.userId;
+
+                return Align(
+                  alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 4),
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: isMe
+                          ? AppConstants.accentColor
+                          : (isDarkMode ? Colors.grey[800] : Colors.grey[200]),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                     child: Text(
-                      'Error: ${snapshot.error}',
+                      message['content'],
                       style: TextStyle(
-                        color: Colors.red,
+                        color: isMe ? Colors.white : AppConstants.primaryColor,
                       ),
                     ),
-                  );
-                }
-
-                if (!snapshot.hasData) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-
-                final messages = snapshot.data as String; // Adjust based on API response
-
-                return ListView.builder(
-                  controller: _scrollController,
-                  padding: const EdgeInsets.all(16),
-                  itemCount: 10, // Mock data
-                  itemBuilder: (context, index) {
-                    final isMe = index % 2 == 0; // Mock sender
-                    return Align(
-                      alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(vertical: 4),
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: isMe
-                              ? AppConstants.accentColor
-                              : (isDarkMode ? Colors.grey[800] : Colors.grey[200]),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          messages,
-                          style: TextStyle(
-                            color: isMe ? Colors.white : AppConstants.primaryColor,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
+                  ),
                 );
               },
             ),

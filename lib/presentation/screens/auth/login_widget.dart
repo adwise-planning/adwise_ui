@@ -77,6 +77,7 @@ class LoginWidget extends StatelessWidget {
               Expanded(
                 child: TextFormField(
                   controller: phoneController,
+                  autofillHints: [AutofillHints.telephoneNumber],
                   keyboardType: TextInputType.phone,
                   decoration: const InputDecoration(
                     border: InputBorder.none,
@@ -109,6 +110,7 @@ class LoginWidget extends StatelessWidget {
               // Email Field
               TextFormField(
                 controller: emailController,
+                autofillHints: [AutofillHints.username],
                 keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
@@ -122,6 +124,7 @@ class LoginWidget extends StatelessWidget {
               // Password Field
               TextFormField(
                 controller: passwordController,
+                autofillHints: [AutofillHints.password],
                 obscureText: true,
                 decoration: const InputDecoration(
                   border: InputBorder.none,

@@ -22,6 +22,7 @@ dependencies:
   country_flags: ^3.0.0         # Country flags for phone number input
   logger: ^2.0.2+1              # Logging package
   path_provider: ^2.1.1         # File storage for log
+  lucide_icons: ^0.257.0
 
 dev_dependencies:
   flutter_lints: ^5.0.0

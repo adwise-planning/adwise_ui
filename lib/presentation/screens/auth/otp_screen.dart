@@ -86,7 +86,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                           if (_formKey.currentState!.validate()) {
                             ref
                                 .read(authProvider.notifier)
-                                .verifyOTP(_otpController.text);
+                                .verifyOTP(context,_otpController.text);
                           }
                         },
                   style: ElevatedButton.styleFrom(

@@ -78,6 +78,7 @@ class AppLogger {
   }
 
   String _getCallerInfo() {
+    return "";
     try {
       final stackTrace = StackTrace.current;
       final stackLines = stackTrace.toString().split("\n");

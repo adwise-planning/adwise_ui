@@ -20,5 +20,4 @@ abstract class AppConstants {
     {'name': 'Germany', 'code': '+49', 'flag': 'DE'},
   ];
 
-
 }

@@ -12,38 +12,51 @@ class ChatService {
   Stream<Map<String, dynamic>> get messageStream => _messageController.stream;
 
   final logger = AppLogger();
-  final String token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imdlbi56QGdtYWlsLmNvbSIsImRldmljZV9pZCI6IngwXzJLMjJQUyIsImVtYWlsIjoiZ2VuLnpAZ21haWwuY29tIiwiZXhwIjoxNzM4NzI1NzQ1LCJpYXQiOjE3Mzg2NDAxNjR9.vULVRnux88fEpIhxYZogUD-PjpjvNgmLmRl2cgeQNbE';
+  final String token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imdlbi56QGdtYWlsLmNvbSIsImRldmljZV9pZCI6IngwXzJLMjJQUyIsImVtYWlsIjoiZ2VuLnpAZ21haWwuY29tIiwiZXhwIjoxNzM5ODM1MjY5LCJpYXQiOjE3Mzk3NDg4NzF9.hFz0kH9ta6YEQ2xYaKiBDmPWNpx_-3smjdlTbcgKj-c';
 
-  void connect(String authToken) {
+  Future<void> connect(String authToken) async {
     try {
       
       authToken = authToken.isEmpty ? token : authToken;
+      
       final url = 'wss://websocket-server-7y5w.onrender.com/ws?token=$authToken';
 
       // Use platform-specific WebSocket implementation
         _channel = WebSocketChannel.connect(
           Uri.parse(url),
         );
-      
-      logger.info('Connecting to WebSocket server at: $url');
 
+      logger.info('Connected to WebSocket server at: $url');
+
+    // Listening for received messsges
       _channel.stream.listen(
         (message) {
+          try {
           final decodedMessage = jsonDecode(message);
           _messageController.add(decodedMessage);
+          logger.info("Received and decoded message: $decodedMessage");
+          } 
+          catch (e) {
+          logger.error("JSON decoding error: $e");
+          _messageController.addError("Invalid JSON format: $message");
+          }
         },
         onError: (error) {
+           logger.error("WebSocket Error: $error");
           _messageController.addError(error);
         },
         onDone: () {
-          _messageController.close();
+          //logger.warn("WebSocket connection closed.");
+          //_messageController.close();
         },
       );
     } catch (e) {
+      logger.error('Failed to connect: $e');
       _messageController.addError('Failed to connect: $e');
     }
   }
 
+  // sending messages
   void sendMessage(String senderId, String receiverId, String content) {
     if (_channel.sink != null) {
       final message = jsonEncode({
@@ -53,9 +66,9 @@ class ChatService {
         'timestamp': DateTime.now().toIso8601String(),
       });
       
-      logger.info('Sender ID: $senderId');
-      logger.info('receiver Id: $receiverId');
-      logger.info('content: $content');
+      // logger.info('Sender ID: $senderId');
+      // logger.info('receiver Id: $receiverId');
+      // logger.info('content: $content');
       logger.info('Sending message: $message');
       _channel.sink.add(message);
       

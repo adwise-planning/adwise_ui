@@ -158,7 +158,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               } else {
                                 ref
                                     .read(authProvider.notifier)
-                                    .loginWithEmail(_emailController.text);
+                                    .loginWithEmail(_emailController.text, _passwordController.text);
                               }
                               // ref
                               //    .read(authProvider.notifier)

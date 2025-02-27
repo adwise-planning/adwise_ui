@@ -3,6 +3,7 @@ import 'package:Adwise/presentation/screens/auth/login_screen.dart';
 import 'package:Adwise/presentation/screens/auth/otp_screen.dart';
 import 'package:Adwise/presentation/screens/chat/chat_screen.dart';
 import 'package:Adwise/presentation/screens/home/home_screen.dart';
+import 'package:Adwise/presentation/screens/home/service_selection_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -27,6 +28,18 @@ final router = GoRouter(
     ),
     
     GoRoute(
+      path: '/service_selection',
+      builder: (context, state) => Consumer(
+        builder: (context, ref, child) {
+          return ServiceSelectionScreen(
+            authToken: ref.read(authProvider).authToken ?? 'No Token Passed',
+            userId: ref.read(authProvider).userId ?? 'No User Id Passed',
+          );
+        },
+      ),
+    ),
+
+    GoRoute(
       path: '/chat/:chatId',
       builder: (context, state) => Consumer(
         builder: (context, ref, child) {
@@ -34,6 +47,7 @@ final router = GoRouter(
             chatId: state.pathParameters['chatId']!,
             recipientName: state.extra as String,
             authToken: ref.read(authProvider).authToken ?? '',
+            userId: ref.read(authProvider).userId ??'',
           );
         },
       ),
