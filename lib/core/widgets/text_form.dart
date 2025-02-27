@@ -21,7 +21,7 @@ class CustomTextFormField extends StatelessWidget {
     this.validator,
     this.obscureText = false,
     this.onChanged,
-    required this.isDarkMode,
+    required this.isDarkMode, required double borderRadius, required EdgeInsets padding, Color? borderColor, Color? fillColor,
   });
 
   @override

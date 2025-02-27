@@ -1,8 +1,9 @@
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:Adwise/core/utils/validators.dart';
+import 'package:Adwise/core/constants/app_constants.dart'; // Assuming you have your colors defined here
 
-class LoginWidget extends StatelessWidget {
+class LoginWidget extends StatefulWidget { // Changed to StatefulWidget to manage touched state
   final bool isPhoneLogin;
   final TextEditingController phoneController;
   final TextEditingController emailController;
@@ -25,118 +26,198 @@ class LoginWidget extends StatelessWidget {
   });
 
   @override
+  State<LoginWidget> createState() => _LoginWidgetState();
+}
+
+class _LoginWidgetState extends State<LoginWidget> {
+  bool phoneTouched = false; // Track if phone field has been touched
+  bool emailTouched = false; // Track if email field has been touched
+  bool passwordTouched = false; // Track if password field has been touched
+
+  @override
   Widget build(BuildContext context) {
-    return isPhoneLogin ? _buildPhoneLogin() : _buildEmailLogin();
+    return Container( // Root Container for Background
+      decoration: BoxDecoration(
+        gradient: LinearGradient( // Background Gradient - Soft and subtle
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            widget.isDarkMode ? AppConstants.primaryColorShade : Colors.white, // Dark mode starts darker
+            widget.isDarkMode ? Colors.grey[900]! : Colors.grey[100]!, // Light mode fades to light grey
+          ],
+        ),
+      ),
+      padding: const EdgeInsets.all(20), // Padding around the login form
+      child: AnimatedSwitcher( // Smooth transition between login types
+        duration: const Duration(milliseconds: 300),
+        transitionBuilder: (Widget child, Animation<double> animation) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+        child: widget.isPhoneLogin ? _buildPhoneLogin(context) : _buildEmailLogin(context),
+      ),
+    );
   }
 
-  // Phone Number Input
-  Widget _buildPhoneLogin() {
+  // Phone Number Input - Error Below Field, Conditionally Displayed
+  Widget _buildPhoneLogin(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        InputDecorator(
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            filled: true,
-            fillColor: isDarkMode ? Colors.grey[800] : Colors.grey[200],
+        Container( // Container for input field background
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: widget.isDarkMode ? Colors.grey[800] : Colors.white, // White for light mode input
           ),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
           child: Row(
             children: [
-              // Country Code Dropdown
               DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
-                  value: selectedCountryCode,
+                  value: widget.selectedCountryCode,
+                  dropdownColor: widget.isDarkMode ? Colors.grey[900] : Colors.white,
+                  icon: const Icon(Icons.arrow_drop_down, color: AppConstants.primaryColor),
+                  style: TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black87, fontSize: 16),
                   onChanged: (String? newValue) {
                     if (newValue != null) {
-                      onCountryChanged(newValue);
+                      widget.onCountryChanged(newValue);
                     }
                   },
-                  items: countries.map((country) {
+                  items: widget.countries.map((country) {
                     return DropdownMenuItem<String>(
                       value: country['code'],
                       child: Row(
                         children: [
                           CountryFlag.fromCountryCode(
                             country['flag']!,
-                            width: 24,
-                            height: 16,
+                            width: 28,
+                            height: 20,
                           ),
-                          const SizedBox(width: 8),
-                          Text(country['code']!),
+                          const SizedBox(width: 10),
+                          Text(country['code']!, style: const TextStyle(fontWeight: FontWeight.w500)),
                         ],
                       ),
                     );
                   }).toList(),
                 ),
               ),
-              const SizedBox(width: 8),
-
-              // Phone Number Input
+              const SizedBox(width: 10),
               Expanded(
                 child: TextFormField(
-                  controller: phoneController,
-                  autofillHints: [AutofillHints.telephoneNumber],
+                  controller: widget.phoneController,
+                  autofillHints: const [AutofillHints.telephoneNumber],
                   keyboardType: TextInputType.phone,
+                  style: TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black87),
                   decoration: const InputDecoration(
                     border: InputBorder.none,
-                    hintText: 'Enter phone number',
+                    hintText: 'Phone Number',
+                    hintStyle: TextStyle(color: Colors.grey),
+                    errorStyle: TextStyle(color: Colors.redAccent), // Error text style - Red accent
                   ),
-                  validator: (value) => Validators.phoneValidator(value),
+                  onChanged: (value) { // Set phoneTouched when user starts typing
+                    setState(() {
+                      phoneTouched = true;
+                    });
+                  },
+                  validator: (value) => phoneTouched ? Validators.phoneValidator(value) : null, // Validate only if touched
                 ),
               ),
             ],
           ),
+        ),
+        // Error Message Area - Below Phone Input - Conditional Display
+        Padding(
+          padding: const EdgeInsets.only(left: 12.0, top: 5.0), // Indented and spaced from input
+          child:  Builder( // Using Builder to get context for Theme
+              builder: (context) {
+                final error = Validators.phoneValidator(widget.phoneController.text);
+                return (phoneTouched && error != null) // Show error only if touched AND invalid
+                    ? Text(error, style: TextStyle(color: Theme.of(context).colorScheme.error, fontSize: 12)) // Use theme error color
+                    : const SizedBox.shrink(); // No error, no space
+              },
+            ),
         ),
       ],
     );
   }
 
-  // Email & Password Input
-  Widget _buildEmailLogin() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: isDarkMode ? Colors.grey[800] : Colors.grey[200],
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.grey),
+  // Email & Password Input - Error Below Each Field - Conditional Display
+  Widget _buildEmailLogin(BuildContext context) {
+    return Container( // Container for Email/Password Form
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: widget.isDarkMode ? Colors.grey[800] : Colors.white, // White background for light mode form
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Email Field with Error Below - Conditional Display
+          TextFormField(
+            controller: widget.emailController,
+            autofillHints: const [AutofillHints.username],
+            keyboardType: TextInputType.emailAddress,
+            style: TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black87),
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Email Address',
+              hintStyle: TextStyle(color: Colors.grey),
+              prefixIcon: Icon(Icons.email, color: AppConstants.primaryColor),
+              errorStyle: TextStyle(color: Colors.redAccent), // Error text style - Red accent
+            ),
+             onChanged: (value) { // Set emailTouched when user starts typing
+              setState(() {
+                emailTouched = true;
+              });
+            },
+            validator: (value) => emailTouched ? Validators.emailValidator(value) : null, // Validate only if touched
           ),
-          child: Column(
-            children: [
-              // Email Field
-              TextFormField(
-                controller: emailController,
-                autofillHints: [AutofillHints.username],
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Email Address',
-                  prefixIcon: Icon(Icons.email),
-                ),
-                validator: (value) => Validators.emailValidator(value),
-              ),
-              Divider(color: Colors.grey[400]),
+          Padding( // Error message for Email - Conditional Display
+            padding: const EdgeInsets.only(left: 12.0, bottom: 8.0), // Indented and spaced
+            child: Builder( // Using Builder to get context for Theme
+              builder: (context) {
+                final error = Validators.emailValidator(widget.emailController.text);
+                return (emailTouched && error != null) // Show error only if touched AND invalid
+                    ? Text(error, style: TextStyle(color: Theme.of(context).colorScheme.error, fontSize: 12)) // Use theme error color
+                    : const SizedBox.shrink();
+              },
+            ),
+          ),
+          const Divider(color: Colors.grey),
+          const SizedBox(height: 8),
 
-              // Password Field
-              TextFormField(
-                controller: passwordController,
-                autofillHints: [AutofillHints.password],
-                obscureText: true,
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Password',
-                  prefixIcon: Icon(Icons.lock),
-                ),
-                validator: (value) => Validators.passwordValidator(value),
-              ),
-            ],
+          // Password Field with Error Below - Conditional Display
+          TextFormField(
+            controller: widget.passwordController,
+            autofillHints: const [AutofillHints.password],
+            obscureText: true,
+            style: TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black87),
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Password',
+              hintStyle: TextStyle(color: Colors.grey),
+              prefixIcon: Icon(Icons.lock, color: AppConstants.primaryColor),
+              errorStyle: TextStyle(color: Colors.redAccent), // Error text style - Red accent
+            ),
+             onChanged: (value) { // Set passwordTouched when user starts typing
+              setState(() {
+                passwordTouched = true;
+              });
+            },
+            validator: (value) => passwordTouched ? Validators.passwordValidator(value) : null, // Validate only if touched
           ),
-        ),
-      ],
+          Padding( // Error message for Password - Conditional Display
+            padding: const EdgeInsets.only(left: 12.0, top: 5.0), // Indented and spaced
+            child: Builder( // Using Builder to get context for Theme
+              builder: (context) {
+                final error = Validators.passwordValidator(widget.passwordController.text);
+                return (passwordTouched && error != null) // Show error only if touched AND invalid
+                    ? Text(error, style: TextStyle(color: Theme.of(context).colorScheme.error, fontSize: 12)) // Use theme error color
+                    : const SizedBox.shrink();
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

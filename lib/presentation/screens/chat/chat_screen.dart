@@ -7,18 +7,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
  
 class ChatScreen extends ConsumerStatefulWidget {
-  final String chatId;
+  final String recipientId;
   final String recipientName;
   final String authToken;
-  final String userId;
+  final String uuid;
 
 
   const ChatScreen({
     super.key,
-    required this.chatId,
+    required this.recipientId,
     required this.recipientName,
     required this.authToken,
-    required this.userId,
+    required this.uuid,
   });
 
   @override
@@ -37,7 +37,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   void initState() {
     super.initState();
     _chatService = ChatService();
-    print("Chat screen initialized with chatId: ${widget.chatId}, recipientName: ${widget.recipientName}, authToken: ${widget.authToken}, userId: ${widget.userId}");
+    print("Chat screen initialized with recipientId: ${widget.recipientId}, recipientName: ${widget.recipientName}, authToken: ${widget.authToken}, userId: ${widget.uuid}");
 
     _chatService.connect(widget.authToken);
 
@@ -59,19 +59,19 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   }
 
   void _sendMessage() {
-    print("Chat screen initialized with chatId: ${widget.chatId}, recipientName: ${widget.recipientName}, authToken: ${widget.authToken}, userId: ${widget.userId}");
+    print("Chat screen initialized with recipientId: ${widget.recipientId}, recipientName: ${widget.recipientName}, authToken: ${widget.authToken}, userId: ${widget.uuid}");
     final messageText = _messageController.text.trim();
     if (messageText.isNotEmpty) {
       final message = {
-        'sender_id': widget.userId,
-        'recipient_id': widget.chatId, // Use chatId as recipientId
+        'sender_id': widget.uuid,
+        'recipient_id': widget.recipientId, // Use recipientId as recipientId
         'content': messageText,
         'timestamp': DateTime.now().toIso8601String(),
       };
 
       _chatService.sendMessage(
-        widget.userId,
-        widget.chatId,
+        widget.uuid,
+        widget.recipientId,
         messageText,
       );
 
@@ -98,7 +98,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("Chat screen initialized with chatId: ${widget.chatId}, recipientName: ${widget.recipientName}, authToken: ${widget.authToken}, userId: ${widget.userId}");
+    print("Chat screen initialized with recipientId: ${widget.recipientId}, recipientName: ${widget.recipientName}, authToken: ${widget.authToken}, userId: ${widget.uuid}");
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
@@ -116,7 +116,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               itemCount: _messages.length,
               itemBuilder: (context, index) {
                 final message = _messages[index];
-                final isMe = message['sender_id'] == widget.userId;
+                final isMe = message['sender_id'] == widget.uuid;
 
                 return Align(
                   alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
@@ -153,6 +153,8 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                     controller: _messageController,
                     hintText: 'Type a message...',
                     isDarkMode: isDarkMode,
+                    borderRadius: 24,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     onChanged: (value) {
                       setState(() {});
                     },

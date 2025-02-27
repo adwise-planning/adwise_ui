@@ -28,7 +28,7 @@ final router = GoRouter(
     ),
     
     GoRoute(
-      path: '/service_selection',
+      path: '/srv',
       builder: (context, state) => Consumer(
         builder: (context, ref, child) {
           return ServiceSelectionScreen(
@@ -44,10 +44,10 @@ final router = GoRouter(
       builder: (context, state) => Consumer(
         builder: (context, ref, child) {
           return ChatScreen(
-            chatId: state.pathParameters['chatId']!,
+            recipientId: state.pathParameters['chatId']!,
             recipientName: state.extra as String,
             authToken: ref.read(authProvider).authToken ?? '',
-            userId: ref.read(authProvider).userId ??'',
+            uuid: ref.read(authProvider).userId ??'',
           );
         },
       ),

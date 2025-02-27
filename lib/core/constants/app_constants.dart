@@ -20,4 +20,6 @@ abstract class AppConstants {
     {'name': 'Germany', 'code': '+49', 'flag': 'DE'},
   ];
 
+  static var primaryColorShade = Color.fromRGBO(24, 32, 102, 1);
+
 }

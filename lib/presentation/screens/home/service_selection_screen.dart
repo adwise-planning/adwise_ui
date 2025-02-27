@@ -1,5 +1,5 @@
-import 'package:Adwise/presentation/screens/chat/chat_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:Adwise/presentation/screens/chat/chat_screen.dart';
 
 class ServiceSelectionScreen extends StatelessWidget {
   final String userId;
@@ -14,79 +14,142 @@ class ServiceSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: _buildBottomNavigationBar(),
+      backgroundColor: Colors.white,
       body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeroSection(),
+              _buildSearchBar(),
+              _buildQuickActions(),
+              _buildServiceGrid(context),
+              _buildAroundYouSection(),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: _buildBottomNavigationBar(),
+    );
+  }
+
+  // Hero Section with Background Image
+  Widget _buildHeroSection() {
+    return Container(
+      height: 200,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/hero_background.jpg"), // Add a background image
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.black.withOpacity(0.5), Colors.transparent],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildPromotionalBanner(),
-            _buildSearchAndFavorites(),
-            _buildServiceGrid(context),
-            _buildAroundYouSection(),
+            Text(
+              "Get Services\nOn the Go",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              "Book your favorite services in just a few taps.",
+              style: TextStyle(
+                color: Colors.white.withOpacity(0.9),
+                fontSize: 14,
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildPromotionalBanner() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      color: Colors.blue.shade900,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Text(
-              "Get your life a breeze, get services on the go →",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Icon(Icons.celebration, color: Colors.white),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSearchAndFavorites() {
+  // Search Bar
+  Widget _buildSearchBar() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
+      child: TextField(
+        decoration: InputDecoration(
+          hintText: "Search services...",
+          prefixIcon: Icon(Icons.search, color: Colors.blue.shade900),
+          filled: true,
+          fillColor: Colors.grey.shade100,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide.none,
+          ),
+          contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        ),
+      ),
+    );
+  }
+
+  // Quick Actions (Favorites and Now)
+  Widget _buildQuickActions() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          TextField(
-            decoration: InputDecoration(
-              hintText: "Search services",
-              prefixIcon: Icon(Icons.search),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildQuickAction(Icons.star, "Favorite Services"),
-              _buildQuickAction(Icons.schedule, "Now"),
-            ],
-          ),
+          _buildQuickActionCard(Icons.star, "Favorites", Colors.orange.shade100, Colors.orange.shade900),
+          _buildQuickActionCard(Icons.schedule, "Now", Colors.blue.shade100, Colors.blue.shade900),
         ],
       ),
     );
   }
 
-  Widget _buildQuickAction(IconData icon, String label) {
-    return Column(
-      children: [
-        Icon(icon, size: 30, color: Colors.blue.shade900),
-        Text(label, style: TextStyle(fontSize: 12)),
-      ],
+  Widget _buildQuickActionCard(IconData icon, String label, Color bgColor, Color iconColor) {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(15),
+        onTap: () {
+          // Add functionality here
+        },
+        child: Container(
+          width: 150,
+          padding: EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: bgColor,
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Column(
+            children: [
+              Icon(icon, size: 40, color: iconColor),
+              SizedBox(height: 8),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
+  // Service Grid
   Widget _buildServiceGrid(BuildContext context) {
     List<Map<String, dynamic>> services = [
       {'title': 'Health & Wellness', 'icon': Icons.health_and_safety},
@@ -96,46 +159,60 @@ class ServiceSelectionScreen extends StatelessWidget {
       {'title': 'Beauty & Fashion', 'icon': Icons.brush},
       {'title': 'Travel', 'icon': Icons.flight},
     ];
-    
-    print("Service screen authToken: ${authToken}, userId: ${userId}");
 
     return Padding(
-      padding: const EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(16.0),
       child: GridView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
-          crossAxisSpacing: 5,
-          mainAxisSpacing: 5,
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 16,
         ),
         itemCount: services.length,
         itemBuilder: (context, index) {
-          return GestureDetector(
-                  onTap: () {
-                      // Navigate to the chat screen with a selected provider
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ChatScreen(
-                            chatId: context.toString(), // Replace with actual provider ID
-                            recipientName: "Service screen for : ${services[index]['title']} authToken: ${authToken}, userId: ${userId}", // Replace with actual provider name
-                            authToken: authToken,
-                            userId: userId,
-                          ),
-                        ),
-                      );
-                    },
-            child: Column(
-              children: [
-                CircleAvatar(
-                  radius: 30,
-                  backgroundColor: Colors.blue.shade100,
-                  child: Icon(services[index]['icon'], size: 30, color: Colors.blue.shade900),
+          return Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(15),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatScreen(
+                      recipientId: 'f49537b5-5a38-4b50-90c2-066367af840a',
+                      recipientName: "Service screen for : ${services[index]['title']} authToken: ${authToken}, userId: ${userId}",
+                      authToken: authToken,
+                      uuid: userId,
+                    ),
+                  ),
+                );
+              },
+              child: Container(
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
                 ),
-                const SizedBox(height: 8),
-                Text(services[index]['title'], textAlign: TextAlign.center, style: TextStyle(fontSize: 12)),
-              ],
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(services[index]['icon'], size: 40, color: Colors.blue.shade900),
+                    SizedBox(height: 8),
+                    Text(
+                      services[index]['title'],
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           );
         },
@@ -143,6 +220,7 @@ class ServiceSelectionScreen extends StatelessWidget {
     );
   }
 
+  // Around You Section
   Widget _buildAroundYouSection() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -151,23 +229,45 @@ class ServiceSelectionScreen extends StatelessWidget {
         children: [
           Text(
             "Around You",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           Container(
-            height: 150,
-            color: Colors.grey.shade300,
-            child: Center(child: Text("Map View Placeholder")),
+            height: 200,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              image: DecorationImage(
+                image: AssetImage("assets/images/map_background.jpg"), // Add a map background image
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Center(
+              child: Text(
+                "Map View Placeholder",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ),
         ],
       ),
     );
   }
 
+  // Bottom Navigation Bar
   Widget _buildBottomNavigationBar() {
     return BottomNavigationBar(
+      backgroundColor: Colors.white,
       selectedItemColor: Colors.blue.shade900,
       unselectedItemColor: Colors.grey,
+      showUnselectedLabels: true,
+      type: BottomNavigationBarType.fixed,
       items: const [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
         BottomNavigationBarItem(icon: Icon(Icons.list_alt), label: "Activity"),
