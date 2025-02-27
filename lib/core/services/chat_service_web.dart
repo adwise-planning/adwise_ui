@@ -19,6 +19,7 @@ class ChatService {
       
       authToken = authToken.isEmpty ? token : authToken;
       
+      // final url = 'wss://websocket-server-7y5w.onrender.com/ws?token=$authToken';
       final url = 'wss://websocket-server-7y5w.onrender.com/ws?token=$authToken';
 
       // Use platform-specific WebSocket implementation
