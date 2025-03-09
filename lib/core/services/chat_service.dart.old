@@ -1,0 +1,52 @@
+import 'dart:async';
+import 'package:Adwise/core/services/logger_service.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
+
+class ChatService {
+  late WebSocketChannel _channel;
+  final StreamController<String> _messageController =
+      StreamController.broadcast();
+  final logger = AppLogger();
+  final String token =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imdlbi55QGdtYWlsLmNvbSIsImRldmljZV9pZCI6IngwXzJLMjJQUyIsImVtYWlsIjoiZ2VuLnlAZ21haWwuY29tIiwiZXhwIjoxNzM4NjA1NTYxLCJpYXQiOjE3Mzg1MTkxNjN9.5iPU2MnAqn72eJJSLi_4vjO744537sxonYLlxOu0r7w';
+
+  Stream<String> get messageStream => _messageController.stream;
+
+  void connect(String authToken) {
+    try {
+      logger.info('Connecting to WebSocket server, passing token: $authToken');
+      authToken = authToken.isEmpty || authToken == '' ? token : authToken;
+
+      // Establish WebSocket connection with custom headers
+      final headers = {
+        'Authorization': 'Bearer ${authToken}', // Add token as header
+      };
+
+      final uri = Uri.parse(
+          'ws://websocket-server-7y5w.onrender.com/ws?token=$authToken');
+      logger.info('URI: $uri');
+      _channel = WebSocketChannel.connect(uri);
+      _channel.stream.listen(
+        (message) {
+          _messageController.add(message);
+        },
+        onError: (error) {
+          _messageController.addError(error);
+        },
+        onDone: () {
+          _messageController.close();
+        },
+      );
+    } catch (e) {
+      logger.info('Failed to connect to WebSocket: $e');
+    }
+  }
+
+  void sendMessage(String message) {
+    _channel.sink.add(message);
+  }
+
+  void disconnect() {
+    _channel.sink.close();
+  }
+}
