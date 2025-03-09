@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:io';
-import 'chat_service_interface.dart';
+import 'package:Adwise/core/services/chat_service_interface.dart';
 import 'package:Adwise/core/services/logger_service.dart';
 
-class ChatServiceIO implements ChatServiceInterface {
+class ChatServiceIO implements ChatService {
   WebSocket? _webSocket;
   final StreamController<String> _messageController =
       StreamController<String>.broadcast();
@@ -11,17 +11,17 @@ class ChatServiceIO implements ChatServiceInterface {
   Stream<String> get messageStream => _messageController.stream;
 
   final logger = AppLogger();
-  final String token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imdlbi55QGdtYWlsLmNvbSIsImRldmljZV9pZCI6IngwXzJLMjJQUyIsImVtYWlsIjoiZ2VuLnlAZ21haWwuY29tIiwiZXhwIjoxNzM4NzIwMzg0LCJpYXQiOjE3Mzg2MzQxODJ9.tSsE2KYpjT_L8Ntcq5hzyuZ6yk0KdOVoQ_U8M_JKq2o';
+  // final String token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imdlbi55QGdtYWlsLmNvbSIsImRldmljZV9pZCI6IngwXzJLMjJQUyIsImVtYWlsIjoiZ2VuLnlAZ21haWwuY29tIiwiZXhwIjoxNzM4NzIwMzg0LCJpYXQiOjE3Mzg2MzQxODJ9.tSsE2KYpjT_L8Ntcq5hzyuZ6yk0KdOVoQ_U8M_JKq2o';
 
-  @override
   void connect(String authToken) async {
     try {
-      authToken = authToken.isEmpty ? token : authToken;
-      final url = 'wss://websocket-server-7y5w.onrender.com/ws?token=$authToken';
+      // authToken = authToken.isEmpty ? token : authToken;
+      // final url = 'wss://websocket-server-7y5w.onrender.com/ws?token=$authToken';
+      final url = 'wss://adwise-service.onrender.com/ws';
 
       logger.info('Connecting to WebSocket server at: $url');
 
-      _webSocket = await WebSocket.connect(url);
+      _webSocket = await WebSocket.connect(url, headers: {"Authorization": "Bearer $authToken"});
 
       _webSocket!.listen(
         (message) {
@@ -45,7 +45,6 @@ class ChatServiceIO implements ChatServiceInterface {
     }
   }
 
-  @override
   void sendMessage(String message) {
     if (_webSocket != null && _webSocket!.readyState == WebSocket.open) {
       logger.info('Sending message: $message');
@@ -55,7 +54,6 @@ class ChatServiceIO implements ChatServiceInterface {
     }
   }
 
-  @override
   void disconnect() {
     _webSocket?.close();
     _messageController.close();

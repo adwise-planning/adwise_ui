@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
+  // Constructor for LoginScreen
   const LoginScreen({super.key});
 
   @override
@@ -13,6 +14,7 @@ class LoginScreen extends ConsumerStatefulWidget {
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
+  // Input fields for phone, email and password
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -26,8 +28,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     super.dispose();
   }
 
+  // Build method for LoginScreen widget. It returns a Scaffold with a SafeArea, SingleChildScrollView and Column. This is the main UI of the LoginScreen.
   @override
   Widget build(BuildContext context) {
+    // Read the authProvider and authState from the provider scope. The authProvider is used to send OTP and login with email and password.
     ref.read(authProvider.notifier).setContext(context);
     final authState = ref.watch(authProvider);
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
@@ -35,197 +39,175 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
-    //   return Scaffold(
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // App Logo and Title
-                Center(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Image.asset(
-                          'logo.png',
-                          height: screenHeight * 0.2,
-                        ),
-                      ),
-                      // Icon(
-                      //   Icons.chat_bubble_outline,
-                      //   size: 100,
-                      //   color: isDarkMode
-                      //       ? Colors.white
-                      //       : AppConstants.primaryColor,
-                      // ),
-                      const SizedBox(height: 16),
-                      Text(
-                        AppConstants.welcomeMessage,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium
-                            ?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: isDarkMode
-                                  ? Colors.white
-                                  : AppConstants.primaryColor,
-                            ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 40),
+        // backgroundColor: AppConstants.primaryColor,
+        resizeToAvoidBottomInset: true,
+        extendBody: true,
+        body: 
+        Stack(
+          children: [
+            // Background Image
+            SizedBox.expand(
+              child: Image.asset(
+                AppConstants.backgroundImagePath,
+                fit: BoxFit.cover,
+                // colorBlendMode: BlendMode.luminosity,
+                // color: Colors.purpleAccent, // Semi-transparent overlay
+              ),
+            ),
 
-                // Toggle between Phone & Email Login
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+            // Main content
+            SafeArea(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextButton(
-                      onPressed: () => setState(() => _isPhoneLogin = true),
-                      child: Text(
-                        'Login with Phone',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: _isPhoneLogin
-                              ? AppConstants.primaryColor
-                              : Colors.grey,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Text('|',
-                        style: TextStyle(fontSize: 18, color: Colors.grey)),
-                    const SizedBox(width: 10),
-                    TextButton(
-                      onPressed: () => setState(() => _isPhoneLogin = false),
-                      child: Text(
-                        'Login with Email',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: !_isPhoneLogin
-                              ? AppConstants.primaryColor
-                              : Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-
-                // Phone Number Input
-                const SizedBox(height: 8),
-                Form(
-                  key: _formKey,
-                  child: LoginWidget(
-                    isPhoneLogin: _isPhoneLogin,
-                    phoneController: _phoneController,
-                    emailController: _emailController,
-                    passwordController: _passwordController,
-                    selectedCountryCode: _selectedCountryCode,
-                    countries: AppConstants.countries,
-                    onCountryChanged: (newCode) =>
-                        setState(() => _selectedCountryCode = newCode),
-                    isDarkMode: isDarkMode,
-                  ),
-                ),
-                const SizedBox(height: 24),
-
-                // Send OTP / Login Button
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: authState.status == AuthStateStatus.loading
-                        ? null
-                        : () {
-                            if (_formKey.currentState!.validate()) {
-                              ref
-                                  .read(authProvider.notifier)
-                                  .clearError(); // Ensure authProvider has a method to reset errors
-                              // ref.read(authProvider.notifier).sendOTP(_phoneController.text);
-                              if (_isPhoneLogin) {
-                                String fullPhoneNumber =
-                                    '$_selectedCountryCode ${_phoneController.text}';
-                                ref
-                                    .read(authProvider.notifier)
-                                    .sendOTP(fullPhoneNumber);
-                              } else {
-                                ref
-                                    .read(authProvider.notifier)
-                                    .loginWithEmail(_emailController.text, _passwordController.text);
-                              }
-                              // ref
-                              //    .read(authProvider.notifier)
-                              //    .sendOTP(_phoneController.text);
-                            }
-                          },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppConstants.accentColor,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: authState.status == AuthStateStatus.loading
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2,
+                    // App Logo and Title
+                    Center(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Image.asset(
+                              AppConstants.logo, // App logo
+                              height: screenHeight * 0.2,
                             ),
-                          )
-                        : Text(
-                            _isPhoneLogin ? 'Send OTP' : 'Login',
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            AppConstants.welcomeMessage,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white, // Ensure text remains readable
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+
+                    // Toggle between Phone & Email Login
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                          onPressed: () => setState(() => _isPhoneLogin = true),
+                          child: Text(
+                            'Login with Phone',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: isDarkMode
+                              color: _isPhoneLogin
                                   ? AppConstants.primaryColor
-                                  : Colors.white,
+                                  : Colors.grey,
                             ),
                           ),
-                  ),
+                        ),
+                        const SizedBox(width: 10),
+                        Text('|',
+                            style: TextStyle(fontSize: 18, color: Colors.grey)),
+                        const SizedBox(width: 10),
+                        TextButton(
+                          onPressed: () =>
+                              setState(() => _isPhoneLogin = false),
+                          child: Text(
+                            'Login with Email',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: !_isPhoneLogin
+                                  ? AppConstants.primaryColor
+                                  : Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+
+                    // Form Fields
+                    const SizedBox(height: 8),
+                    Form(
+                      key: _formKey,
+                      child: LoginWidget(
+                        isPhoneLogin: _isPhoneLogin,
+                        phoneController: _phoneController,
+                        emailController: _emailController,
+                        passwordController: _passwordController,
+                        selectedCountryCode: _selectedCountryCode,
+                        countries: AppConstants.countries,
+                        onCountryChanged: (newCode) =>
+                            setState(() => _selectedCountryCode = newCode),
+                        isDarkMode: isDarkMode,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Send OTP / Login Button
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: authState.status == AuthStateStatus.loading
+                            ? null
+                            : () {
+                                if (_formKey.currentState!.validate()) {
+                                  ref
+                                      .read(authProvider.notifier)
+                                      .clearError(); // Ensure authProvider has a method to reset errors
+                                  if (_isPhoneLogin) {
+                                    ref.read(authProvider.notifier).sendOTP(
+                                        _selectedCountryCode,
+                                        _phoneController.text);
+                                  } else {
+                                    ref
+                                        .read(authProvider.notifier)
+                                        .loginWithEmail(_emailController.text,
+                                            _passwordController.text);
+                                  }
+                                }
+                              },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppConstants.accentColor,
+                          // padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            //borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: authState.status == AuthStateStatus.loading
+                            ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : Text(
+                                _isPhoneLogin ? 'Send OTP' : 'Login',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
                 ),
-                const SizedBox(height: 16),
-
-                // Error Message
-                if (authState.error != null)
-                  Center(
-                    child: Text(
-                      authState.error!,
-                      style: TextStyle(
-                        color: Colors.red[400],
-                        fontSize: 14,
-                      ),
-                    ),
-                  ),
-
-                // Success Message
-                if (authState.status == AuthStateStatus.success)
-                  Center(
-                    child: Text(
-                      // 'OTP Sent Successfully!',
-                      _isPhoneLogin
-                          ? 'OTP Sent Successfully!'
-                          : 'Login Successful!',
-                      style: TextStyle(
-                        color: Colors.green[400],
-                        fontSize: 14,
-                      ),
-                    ),
-                  ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
   }
-  }
+}

@@ -13,23 +13,24 @@ final lightTheme = ThemeData(
     onSurface: AppConstants.primaryColor, // Text on light backgrounds
   ),
   scaffoldBackgroundColor: Colors.white,
-  textTheme: const TextTheme(
-    bodyLarge: TextStyle(color: AppConstants.primaryColor),
-    bodyMedium: TextStyle(color: AppConstants.primaryColor),
-    titleLarge: TextStyle(color: AppConstants.primaryColor),
-    titleMedium: TextStyle(color: AppConstants.primaryColor),
-    labelLarge: TextStyle(color: Colors.white), // Buttons
+  textTheme: TextTheme(
+    bodyLarge: TextStyle(color: AppConstants.primaryColor, fontFamily: AppConstants.fontFamily),
+    bodyMedium: TextStyle(color: AppConstants.primaryColor, fontFamily: AppConstants.fontFamily),
+    titleLarge: TextStyle(color: AppConstants.primaryColor, fontFamily: AppConstants.fontFamily),
+    titleMedium: TextStyle(color: AppConstants.primaryColor, fontFamily: AppConstants.fontFamily),
+    labelLarge: TextStyle(color: Colors.white, fontFamily: AppConstants.fontFamily), // Buttons
   ),
-  appBarTheme: const AppBarTheme(
+  appBarTheme: AppBarTheme(
     backgroundColor: AppConstants.primaryColor,
     titleTextStyle: TextStyle(
       color: Colors.white,
       fontSize: 20,
+      fontFamily: AppConstants.fontFamily,
       fontWeight: FontWeight.bold,
     ),
     iconTheme: IconThemeData(color: Colors.white),
   ),
-  floatingActionButtonTheme: const FloatingActionButtonThemeData(
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: AppConstants.accentColor,
     foregroundColor: Colors.white,
   ),
@@ -48,22 +49,23 @@ final darkTheme = ThemeData(
   ),
   scaffoldBackgroundColor: Colors.grey[900],
   textTheme: TextTheme(
-    bodyLarge: const TextStyle(color: Colors.white),
-    bodyMedium: const TextStyle(color: Colors.white),
-    titleLarge: const TextStyle(color: Colors.white),
-    titleMedium: const TextStyle(color: Colors.white),
-    labelLarge: const TextStyle(color: Colors.white), // Buttons
+    bodyLarge: TextStyle(color: Colors.white, fontFamily: AppConstants.fontFamily),
+    bodyMedium: TextStyle(color: Colors.white, fontFamily: AppConstants.fontFamily),
+    titleLarge: TextStyle(color: Colors.white, fontFamily: AppConstants.fontFamily),
+    titleMedium: TextStyle(color: Colors.white, fontFamily: AppConstants.fontFamily),
+    labelLarge: TextStyle(color: Colors.white, fontFamily: AppConstants.fontFamily), // Buttons
   ),
-  appBarTheme: const AppBarTheme(
+  appBarTheme: AppBarTheme(
     backgroundColor: AppConstants.primaryColor,
     titleTextStyle: TextStyle(
+      fontFamily: AppConstants.fontFamily,
       color: Colors.white,
       fontSize: 20,
       fontWeight: FontWeight.bold,
     ),
     iconTheme: IconThemeData(color: Colors.white),
   ),
-  floatingActionButtonTheme: const FloatingActionButtonThemeData(
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: AppConstants.accentColor,
     foregroundColor: Colors.white,
   ),

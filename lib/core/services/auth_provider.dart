@@ -1,8 +1,8 @@
 import 'package:Adwise/core/services/logger_service.dart';
+import 'package:Adwise/presentation/screens/auth/otp_screen.dart';
 import 'package:Adwise/presentation/screens/home/service_selection_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -52,7 +52,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   //  Send OTP to the provided phone number
-  Future<void> sendOTP(String phone) async {
+  Future<void> sendOTP(String countryCode, String phone) async {
     state = state.copyWith(status: AuthStateStatus.loading, phone: phone);
     try {
       // state = state.copyWith(status: AuthStateStatus.success);
@@ -60,14 +60,19 @@ class AuthNotifier extends StateNotifier<AuthState> {
         Uri.parse('https://adwise-service.onrender.com/api/login'),
         headers: {
           'Content-Type': 'application/json',
-          //'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Origin': '*',
           'sec-fetch-dest': '',
           'mode': 'no-cors',
-          'x-render-origin-server' : 'Render',
-          'Server': 'cloudflare',
+          'x-render-origin-server': 'Render',
+          'Server': 'render',
           'Access-Control-Allow-Credentials': 'false',
         },
-        body: jsonEncode({"country_code":"001", "phone_number":phone, "password":"pass", "is_email_login":false}),
+        body: jsonEncode({
+          "country_code": countryCode,
+          "phone_number": phone,
+          "password": "pass",
+          "is_email_login": false
+        }),
       );
       // slogger.info('response: $response.statusCode');
       print(response.statusCode);
@@ -80,8 +85,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
           uuid: data['uuid'],
           phone: phone,
         );
-        print("Login successful for uuid: ${data['uuid']}, Token: ${data['token']}");
-        print("Login2 successful for uuid: ${state.uuid}, Token: ${state.authToken}");
+        print(
+            "Login successful for uuid: ${data['uuid']}, Token: ${data['token']}");
       } else {
         logger.warn("Error getting OTP for phone number: $phone");
         // throw Exception('Failed to send OTP');
@@ -89,13 +94,26 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
       // Always success
       state = state.copyWith(status: AuthStateStatus.success, phone: phone);
+      print(_context);
+      print(_context!.mounted);
       if (_context != null && _context!.mounted) {
-          _context!.go('/otp', extra: phone);
+        Navigator.push(
+          _context!,
+          MaterialPageRoute(
+            builder: (context) => OtpScreen(
+              phoneNumber: phone,
+            ),
+          ),
+        );
       }
+
+      // if (_context != null && _context!.mounted) {
+      //   // _context!.go('/otp', extra: phone);
+      // }
     } catch (e) {
       logger.error("Error logging in phone number: $phone", e);
-      state =
-          state.copyWith(status: AuthStateStatus.error, error: e.toString(), phone: phone);
+      state = state.copyWith(
+          status: AuthStateStatus.error, error: e.toString(), phone: phone);
     }
   }
 
@@ -106,19 +124,16 @@ class AuthNotifier extends StateNotifier<AuthState> {
       // TO DO: Integrate with backend
       await Future.delayed(const Duration(seconds: 2)); // Mock delay
       state = state.copyWith(status: AuthStateStatus.success);
-      print(state);
-      print(context);
-      print(context.mounted);
       if (context.mounted) {
         Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ServiceSelectionScreen(
-                                    authToken: state.authToken  ?? 'Unknown Token',
-                                    userId: state.uuid  ?? 'Unknown UUID',
-                                  ),
-                                ),
-                              );
+          context,
+          MaterialPageRoute(
+            builder: (context) => ServiceSelectionScreen(
+              authToken: state.authToken ?? 'Unknown Token',
+              userId: state.uuid ?? 'Unknown UUID',
+            ),
+          ),
+        );
 
         // print("Navigating to service selection");
         // context.go('/service_selection');
@@ -139,26 +154,26 @@ class AuthNotifier extends StateNotifier<AuthState> {
       'password': password,
     };
 
-      // final deviceData = {
-      //   'device_id': deviceInfo['device_id'],
-      //   'name': deviceInfo['name'],
-      //   'type': deviceInfo['type'],
-      //   'manufacturer': deviceInfo['manufacturer'],
-      //   'model': deviceInfo['model'],
-      //   'serial_number': deviceInfo['serial_number'],
-      //   'imei': deviceInfo['imei'],
-      //   'firmware': deviceInfo['firmware'],
-      //   'hardware_version': deviceInfo['hardware_version'],
-      //   'software_version': deviceInfo['software_version'],
-      //   'operating_system': deviceInfo['operating_system'],
-      //   'processor': deviceInfo['processor'],
-      //   'memory': deviceInfo['memory'],
-      //   'storage_capacity': deviceInfo['storage_capacity'],
-      //   'battery_level': deviceInfo['battery_level'],
-      //   'ip_address': deviceInfo['ip_address'],
-      //   'mac_address': deviceInfo['mac_address'],
-      //   'connectivity_type': deviceInfo['connectivity_type']
-      // };
+    // final deviceData = {
+    //   'device_id': deviceInfo['device_id'],
+    //   'name': deviceInfo['name'],
+    //   'type': deviceInfo['type'],
+    //   'manufacturer': deviceInfo['manufacturer'],
+    //   'model': deviceInfo['model'],
+    //   'serial_number': deviceInfo['serial_number'],
+    //   'imei': deviceInfo['imei'],
+    //   'firmware': deviceInfo['firmware'],
+    //   'hardware_version': deviceInfo['hardware_version'],
+    //   'software_version': deviceInfo['software_version'],
+    //   'operating_system': deviceInfo['operating_system'],
+    //   'processor': deviceInfo['processor'],
+    //   'memory': deviceInfo['memory'],
+    //   'storage_capacity': deviceInfo['storage_capacity'],
+    //   'battery_level': deviceInfo['battery_level'],
+    //   'ip_address': deviceInfo['ip_address'],
+    //   'mac_address': deviceInfo['mac_address'],
+    //   'connectivity_type': deviceInfo['connectivity_type']
+    // };
 
     final body = {
       'credentials': credentials,
@@ -173,10 +188,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': 'false',
-          //'Access-Control-Allow-Origin': 'http://localhost:59054',
           'sec-fetch-dest': '',
-          'mode': 'no-cors'
+          'mode': 'no-cors',
+          'x-render-origin-server': 'Render',
+          'Server': 'render',
+          'Access-Control-Allow-Credentials': 'false',
         },
         body: jsonEncode(body),
       );
@@ -187,7 +203,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       if (response.statusCode == 200) {
         final responseBody = jsonDecode(response.body);
         final authToken = responseBody['access_token'];
-        print('authToken: '+ authToken);
+        print('authToken: ' + authToken);
         final userId =
             responseBody['user_id']; // Adjust based on actual API response
 
@@ -197,8 +213,16 @@ class AuthNotifier extends StateNotifier<AuthState> {
           userId: userId,
         );
 
-        if (_context != null && _context!.mounted) {
-          _context!.go('/service_selection');
+        if (_context!.mounted) {
+          Navigator.push(
+            _context!,
+            MaterialPageRoute(
+              builder: (context) => ServiceSelectionScreen(
+                authToken: state.authToken ?? 'Unknown Token',
+                userId: state.uuid ?? 'Unknown UUID',
+              ),
+            ),
+          );
         }
       } else {
         logger.warn("Invalid email or password");
@@ -214,22 +238,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
         error: 'Failed to connect to the server',
       );
     }
-    
-    // simulation without backend integration
-    // try {
-    //   // TO DO: Integrate with backend
-
-    //   // Simulate email login API call
-    //   await Future.delayed(const Duration(seconds: 2));
-    //   state = state.copyWith(status: AuthStateStatus.success);
-    //   if (_context != null && _context!.mounted) {
-    //     _context!.go('/service_selection');
-    //   }
-    // } catch (e) {
-    //   logger.error("Error logging in email: $email", e);
-    //   state = state.copyWith(
-    //       status: AuthStateStatus.error, error: 'Failed to login with email');
-    // }
   }
 
   // Clear errors before retrying

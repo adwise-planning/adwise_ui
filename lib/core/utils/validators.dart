@@ -23,6 +23,6 @@ class Validators {
   static String? passwordValidator(String? value) {
     return (value == null || value.isEmpty)
         ? 'Password is required'
-        : (value.length < 6 ? 'Password must be at least 6 characters' : null);
+        : (value.length < 4 ? 'Password must be at least 4 characters' : null);
   }
 }

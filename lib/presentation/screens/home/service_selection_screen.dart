@@ -158,6 +158,7 @@ class ServiceSelectionScreen extends StatelessWidget {
       {'title': 'Technology', 'icon': Icons.computer},
       {'title': 'Beauty & Fashion', 'icon': Icons.brush},
       {'title': 'Travel', 'icon': Icons.flight},
+      {'title': 'Test Chat', 'icon': Icons.chat},
     ];
 
     return Padding(
@@ -185,7 +186,7 @@ class ServiceSelectionScreen extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => ChatScreen(
                       recipientId: 'f49537b5-5a38-4b50-90c2-066367af840a',
-                      recipientName: "Service screen for : ${services[index]['title']} authToken: ${authToken}, userId: ${userId}",
+                      recipientName: 'User: 9876543210',
                       authToken: authToken,
                       uuid: userId,
                     ),

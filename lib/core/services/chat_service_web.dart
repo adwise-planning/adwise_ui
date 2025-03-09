@@ -1,92 +1,60 @@
 import 'dart:async';
-import 'dart:convert';
+import 'package:Adwise/core/services/chat_service_interface.dart';
 import 'package:Adwise/core/services/logger_service.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
-//import 'dart:html';
+import 'dart:html' as html; // Import for Dart web
 
-class ChatService {
-  late WebSocketChannel _channel;
-  final StreamController<Map<String, dynamic>> _messageController =
-      StreamController.broadcast();
+class ChatServiceWeb implements ChatService {
+  html.WebSocket? _webSocket;
+  final StreamController<String> _messageController =
+      StreamController<String>.broadcast();
 
-  Stream<Map<String, dynamic>> get messageStream => _messageController.stream;
+  Stream<String> get messageStream => _messageController.stream;
 
   final logger = AppLogger();
-  final String token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imdlbi56QGdtYWlsLmNvbSIsImRldmljZV9pZCI6IngwXzJLMjJQUyIsImVtYWlsIjoiZ2VuLnpAZ21haWwuY29tIiwiZXhwIjoxNzM5ODM1MjY5LCJpYXQiOjE3Mzk3NDg4NzF9.hFz0kH9ta6YEQ2xYaKiBDmPWNpx_-3smjdlTbcgKj-c';
 
-  Future<void> connect(String authToken) async {
+  void connect(String authToken) async {
     try {
-      
-      authToken = authToken.isEmpty ? token : authToken;
-      
-      // final url = 'wss://websocket-server-7y5w.onrender.com/ws?token=$authToken';
-      final url = 'wss://websocket-server-7y5w.onrender.com/ws?token=$authToken';
+      // final url = 'wss://adwise-service.onrender.com/ws';
+      final url = 'ws://websocket-server-7y5w.onrender.com/ws?token=';
 
-      // Use platform-specific WebSocket implementation
-        _channel = WebSocketChannel.connect(
-          Uri.parse(url),
-        );
+      logger.info('Connecting to WebSocket server at: $url');
 
-      logger.info('Connected to WebSocket server at: $url');
+      // _webSocket = html.WebSocket(url, protocols: null, headers: {"Authorization": "Bearer $authToken"});
+      _webSocket = await html.WebSocket(url + authToken);
 
-    // Listening for received messsges
-      _channel.stream.listen(
-        (message) {
-          try {
-          final decodedMessage = jsonDecode(message);
-          _messageController.add(decodedMessage);
-          logger.info("Received and decoded message: $decodedMessage");
-          } 
-          catch (e) {
-          logger.error("JSON decoding error: $e");
-          _messageController.addError("Invalid JSON format: $message");
-          }
-        },
-        onError: (error) {
-           logger.error("WebSocket Error: $error");
-          _messageController.addError(error);
-        },
-        onDone: () {
-          //logger.warn("WebSocket connection closed.");
-          //_messageController.close();
-        },
-      );
+      _webSocket!.onMessage.listen((html.MessageEvent message) {
+        logger.info('Received message: ${message.data}');
+        _messageController.add(message.data as String);
+      });
+
+      _webSocket!.onError.listen((html.Event error) {
+        logger.error('WebSocket Error: $error');
+        _messageController.addError(error);
+      });
+
+      _webSocket!.onClose.listen((html.CloseEvent event) {
+        logger.warn('WebSocket connection closed.');
+        _messageController.close();
+      });
+
+      logger.info('WebSocket connected successfully (Web).');
     } catch (e) {
-      logger.error('Failed to connect: $e');
-      _messageController.addError('Failed to connect: $e');
+      logger.error('Failed to connect to WebSocket: $e');
+      _messageController.addError('Connection failed: $e');
     }
   }
 
-  // sending messages
-  void sendMessage(String senderId, String receiverId, String content) {
-    if (_channel.sink != null) {
-      final message = jsonEncode({
-        'sender_id': senderId,
-        'recipient_id': receiverId,
-        'content': content,
-        'timestamp': DateTime.now().toIso8601String(),
-      });
-      
-      // logger.info('Sender ID: $senderId');
-      // logger.info('receiver Id: $receiverId');
-      // logger.info('content: $content');
+  void sendMessage(String message) {
+    if (_webSocket != null && _webSocket!.readyState == html.WebSocket.OPEN) {
       logger.info('Sending message: $message');
-      _channel.sink.add(message);
-      
+      _webSocket!.send(message);
     } else {
-      _messageController.addError('WebSocket connection is not established.');
+      logger.warn('Cannot send message, WebSocket is not connected.');
     }
   }
 
   void disconnect() {
-    if (_channel.sink != null) {
-      _channel.sink.close();
-    }
+    _webSocket?.close();
     _messageController.close();
-  }
-
-  // Helper method to check if the app is running on the web
-  bool isWeb() {
-    return identical(0, 0.0); // A hack to detect web platform
   }
 }

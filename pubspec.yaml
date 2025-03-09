@@ -40,6 +40,9 @@ flutter:
     - family: Croogla
       fonts:
         - asset: assets/fonts/Croogla4F.ttf
+    - family: SFPro
+      fonts:
+        - asset: assets/fonts/SF-Pro.ttf
 
   uses-material-design: true
 

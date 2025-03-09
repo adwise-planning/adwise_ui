@@ -1,17 +1,20 @@
+import 'dart:convert';
+
 import 'package:Adwise/core/constants/app_constants.dart';
+import 'package:Adwise/core/services/chat_service_mobile.dart';
 import 'package:Adwise/core/services/chat_service_web.dart';
 import 'package:Adwise/core/services/logger_service.dart';
 import 'package:Adwise/core/widgets/text_form.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:Adwise/core/services/chat_service_interface.dart';
 
- 
 class ChatScreen extends ConsumerStatefulWidget {
   final String recipientId;
   final String recipientName;
   final String authToken;
   final String uuid;
-
 
   const ChatScreen({
     super.key,
@@ -30,21 +33,30 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   final _scrollController = ScrollController();
   late ChatService _chatService;
   final logger = AppLogger();
-  
+
   List<Map<String, dynamic>> _messages = []; // List to store messages
+
+
 
   @override
   void initState() {
     super.initState();
-    _chatService = ChatService();
-    print("Chat screen initialized with recipientId: ${widget.recipientId}, recipientName: ${widget.recipientName}, authToken: ${widget.authToken}, userId: ${widget.uuid}");
+    if (kIsWeb) {
+      print("Web Chat screen initialized with recipientId: ${widget.recipientId}, recipientName: ${widget.recipientName}, authToken: ${widget.authToken}, userId: ${widget.uuid}");
+      _chatService = ChatServiceWeb();
+    } else {
+      print("Mobile Chat screen initialized with recipientId: ${widget.recipientId}, recipientName: ${widget.recipientName}, authToken: ${widget.authToken}, userId: ${widget.uuid}");
+      _chatService = ChatServiceIO();
+    }
+    //print("Chat screen initialized with recipientId: ${widget.recipientId}, recipientName: ${widget.recipientName}, authToken: ${widget.authToken}, userId: ${widget.uuid}");
 
     _chatService.connect(widget.authToken);
 
     // Listen for incoming messages
     _chatService.messageStream.listen((message) {
+      final parsedMessage = _parseMessage(message);
       setState(() {
-        _messages.add(message); // Store incoming messages
+        _messages.add(parsedMessage); // Store incoming messages
       });
       _scrollToBottom();
     });
@@ -57,9 +69,14 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     _chatService.disconnect();
     super.dispose();
   }
+  Map<String, dynamic> _parseMessage(String message) {
+    // Implement your message parsing logic here
+    // For example, if the message is in JSON format:
+    return jsonDecode(message);
+  }
 
   void _sendMessage() {
-    print("Chat screen initialized with recipientId: ${widget.recipientId}, recipientName: ${widget.recipientName}, authToken: ${widget.authToken}, userId: ${widget.uuid}");
+    print("Inside sendmessage, Chat screen initialized with recipientId: ${widget.recipientId}, recipientName: ${widget.recipientName}, authToken: ${widget.authToken}, userId: ${widget.uuid}");
     final messageText = _messageController.text.trim();
     if (messageText.isNotEmpty) {
       final message = {
@@ -70,8 +87,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       };
 
       _chatService.sendMessage(
-        widget.uuid,
-        widget.recipientId,
         messageText,
       );
 
