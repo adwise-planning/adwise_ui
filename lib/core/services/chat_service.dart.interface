@@ -1,5 +1,5 @@
-import 'package:Adwise/core/services/chat_service_web.dart';
-//import 'package:Adwise/core/services/chat_service_mobile.dart';
+import 'package:adwise/core/services/chat_service_web.dart';
+//import 'package:adwise/core/services/chat_service_mobile.dart';
 
 import 'chat_service_interface.dart'
     if (dart.library.html) 'chat_service_web.dart'

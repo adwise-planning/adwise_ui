@@ -1,4 +1,4 @@
-import 'package:Adwise/core/constants/app_constants.dart';
+import 'package:adwise/core/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 final lightTheme = ThemeData(
@@ -12,7 +12,7 @@ final lightTheme = ThemeData(
     onSecondary: Colors.white, // Text on accent color
     onSurface: AppConstants.primaryColor, // Text on light backgrounds
   ),
-  scaffoldBackgroundColor: Colors.white,
+  //scaffoldBackgroundColor: Colors.white,
   textTheme: TextTheme(
     bodyLarge: TextStyle(color: AppConstants.primaryColor, fontFamily: AppConstants.fontFamily),
     bodyMedium: TextStyle(color: AppConstants.primaryColor, fontFamily: AppConstants.fontFamily),
@@ -47,7 +47,7 @@ final darkTheme = ThemeData(
     onSecondary: Colors.white, // Text on accent color
     onSurface: Colors.white, // Text on dark backgrounds
   ),
-  scaffoldBackgroundColor: Colors.grey[900],
+  //scaffoldBackgroundColor: Colors.grey[900],
   textTheme: TextTheme(
     bodyLarge: TextStyle(color: Colors.white, fontFamily: AppConstants.fontFamily),
     bodyMedium: TextStyle(color: Colors.white, fontFamily: AppConstants.fontFamily),

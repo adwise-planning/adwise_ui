@@ -1,33 +1,32 @@
-import 'package:Adwise/core/constants/app_constants.dart';
-import 'package:Adwise/core/services/auth_provider.dart';
-import 'package:Adwise/presentation/screens/auth/login_widget.dart';
+
+import 'package:adwise/core/constants/app_constants.dart';
+import 'package:adwise/core/models/authentication.dart';
+import 'package:adwise/core/services/auth_provider.dart';
+import 'package:adwise/presentation/screens/auth/login_widget.dart';
+import 'package:adwise/presentation/screens/auth/registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 class LoginScreen extends ConsumerStatefulWidget {
   // Constructor for LoginScreen
   const LoginScreen({super.key});
-
   @override
   ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
-
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   // Input fields for phone, email and password
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final Authentication _user = Authentication();
   String _selectedCountryCode = '+1'; // Default country code
   bool _isPhoneLogin = true; // Toggle between phone & email login
-
   @override
   void dispose() {
     _phoneController.dispose();
     _emailController.dispose();
     super.dispose();
   }
-
   // Build method for LoginScreen widget. It returns a Scaffold with a SafeArea, SingleChildScrollView and Column. This is the main UI of the LoginScreen.
   @override
   Widget build(BuildContext context) {
@@ -35,29 +34,29 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     ref.read(authProvider.notifier).setContext(context);
     final authState = ref.watch(authProvider);
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
-
+    //final screenWidth = MediaQuery.of(context).size.width;
+    
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         // backgroundColor: AppConstants.primaryColor,
         resizeToAvoidBottomInset: true,
         extendBody: true,
-        body: 
-        Stack(
+        body: Stack(
           children: [
-            // Background Image
+            //Background Image
             SizedBox.expand(
               child: Image.asset(
                 AppConstants.backgroundImagePath,
                 fit: BoxFit.cover,
+                opacity: AlwaysStoppedAnimation(0.5),
+                //color: Colors.black,
+                // colorBlendMode: BlendMode.difference,
                 // colorBlendMode: BlendMode.luminosity,
                 // color: Colors.purpleAccent, // Semi-transparent overlay
               ),
             ),
-
             // Main content
             SafeArea(
               child: SingleChildScrollView(
@@ -84,14 +83,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 .headlineMedium
                                 ?.copyWith(
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.white, // Ensure text remains readable
+                                  color: Colors
+                                      .white, // Ensure text remains readable
                                 ),
                           ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 40),
-
                     // Toggle between Phone & Email Login
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -105,7 +104,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               fontWeight: FontWeight.bold,
                               color: _isPhoneLogin
                                   ? AppConstants.primaryColor
-                                  : Colors.grey,
+                                  : Colors.white,
                             ),
                           ),
                         ),
@@ -123,14 +122,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               fontWeight: FontWeight.bold,
                               color: !_isPhoneLogin
                                   ? AppConstants.primaryColor
-                                  : Colors.grey,
+                                  : Colors.white,
                             ),
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 20),
-
                     // Form Fields
                     const SizedBox(height: 8),
                     Form(
@@ -148,7 +146,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                     ),
                     const SizedBox(height: 24),
-
                     // Send OTP / Login Button
                     SizedBox(
                       width: double.infinity,
@@ -161,7 +158,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                       .read(authProvider.notifier)
                                       .clearError(); // Ensure authProvider has a method to reset errors
                                   if (_isPhoneLogin) {
-                                    ref.read(authProvider.notifier).sendOTP(
+                                    ref.read(authProvider.notifier).requestOTP(
                                         _selectedCountryCode,
                                         _phoneController.text);
                                   } else {
@@ -201,6 +198,43 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
+                    // user registration
+                    const SizedBox(height: 16),
+                    // Inside the "Don't have an account?" section
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Don't have an account?",
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        ),
+                        TextButton(
+                          onPressed: authState.status == AuthStateStatus.loading
+                              ? null
+                              : () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => RegistrationScreen(
+                                        countryCode: _selectedCountryCode,
+                                        phoneNumber: _phoneController.text,
+                                        email: _emailController.text,
+                                        password: _passwordController.text,
+                                      ),
+                                    ),
+                                  );
+                                },
+                          child: Text(
+                            "Sign up",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: AppConstants.accentColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),

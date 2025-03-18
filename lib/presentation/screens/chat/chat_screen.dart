@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:Adwise/core/constants/app_constants.dart';
-import 'package:Adwise/core/services/chat_service_mobile.dart';
-import 'package:Adwise/core/services/chat_service_web.dart';
-import 'package:Adwise/core/services/logger_service.dart';
-import 'package:Adwise/core/widgets/text_form.dart';
+import 'package:adwise/core/constants/app_constants.dart';
+import 'package:adwise/core/services/chat_service_mobile.dart';
+import 'package:adwise/core/services/chat_service_web.dart';
+import 'package:adwise/core/services/logger_service.dart';
+import 'package:adwise/core/widgets/text_form.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:Adwise/core/services/chat_service_interface.dart';
+import 'package:adwise/core/services/chat_service_interface.dart';
 
 class ChatScreen extends ConsumerStatefulWidget {
   final String recipientId;
@@ -34,7 +34,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   late ChatService _chatService;
   final logger = AppLogger();
 
-  List<Map<String, dynamic>> _messages = []; // List to store messages
+  final List<Map<String, dynamic>> _messages = []; // List to store messages
 
 
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:Adwise/presentation/screens/chat/chat_screen.dart';
+import 'package:adwise/presentation/screens/chat/chat_screen.dart';
 
 class ServiceSelectionScreen extends StatelessWidget {
   final String userId;

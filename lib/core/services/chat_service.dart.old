@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:Adwise/core/services/logger_service.dart';
+import 'package:adwise/core/services/logger_service.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class ChatService {

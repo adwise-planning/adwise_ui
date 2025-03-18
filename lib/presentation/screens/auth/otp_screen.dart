@@ -1,12 +1,13 @@
-import 'package:Adwise/core/constants/app_constants.dart';
-import 'package:Adwise/core/services/auth_provider.dart';
+import 'package:adwise/core/constants/app_constants.dart';
+import 'package:adwise/core/services/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OtpScreen extends ConsumerStatefulWidget {
   final String phoneNumber;
+  final String countryCode;
 
-  const OtpScreen({super.key, required this.phoneNumber});
+  const OtpScreen({super.key, required this.countryCode, required this.phoneNumber});
 
   @override
   ConsumerState<OtpScreen> createState() => _OtpScreenState();
@@ -43,7 +44,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
               children: [
                 // Instructions
                 Text(
-                  'Enter the OTP sent to ${widget.phoneNumber}',
+                  'Enter the OTP sent to ${widget.countryCode}${widget.phoneNumber}',
                   style: Theme.of(context).textTheme.titleMedium,
                   textAlign: TextAlign.start,
                 ),

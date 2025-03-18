@@ -1,7 +1,7 @@
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
-import 'package:Adwise/core/utils/validators.dart';
-import 'package:Adwise/core/constants/app_constants.dart';
+import 'package:adwise/core/utils/validators.dart';
+import 'package:adwise/core/constants/app_constants.dart';
 import 'package:flutter/services.dart'; // Assuming you have your colors defined here
 
 class LoginWidget extends StatefulWidget {
@@ -50,7 +50,8 @@ class _LoginWidgetState extends State<LoginWidget> {
       //   ],
       // ),
       // ),
-      padding: const EdgeInsets.symmetric(vertical: 0), // Padding around the login form
+      padding: const EdgeInsets.symmetric(
+          vertical: 0), // Padding around the login form
       child: AnimatedSwitcher(
         // Smooth transition between login types
         duration: const Duration(milliseconds: 300),
@@ -133,12 +134,12 @@ class _LoginWidgetState extends State<LoginWidget> {
               SizedBox(width: 10),
               Expanded(
                 child: TextFormField(
-                  
                   controller: widget.phoneController,
                   autofillHints: const [AutofillHints.telephoneNumber],
                   keyboardType: TextInputType.phone,
                   inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly, // Allows only numbers
+                    FilteringTextInputFormatter
+                        .digitsOnly, // Allows only numbers
                   ],
                   style: TextStyle(
                       color: widget.isDarkMode ? Colors.white : Colors.black87),
@@ -157,14 +158,14 @@ class _LoginWidgetState extends State<LoginWidget> {
                     });
                   },
                   validator: (value) => phoneTouched
-                       ? Validators.phoneValidator(value)
-                       : null, // Validate only if touched
+                      ? Validators.phoneValidator(value)
+                      : null, // Validate only if touched
                 ),
               ),
             ],
           ),
         ),
-        
+
         // Error Message Area - Below Phone Input - Conditional Display
         // Padding(
         //   padding: const EdgeInsets.only(
@@ -221,8 +222,9 @@ class _LoginWidgetState extends State<LoginWidget> {
             autofillHints: const [AutofillHints.username],
             keyboardType: TextInputType.emailAddress,
             inputFormatters: [
-                    FilteringTextInputFormatter.singleLineFormatter, // Allows only single line
-                  ],
+              FilteringTextInputFormatter
+                  .singleLineFormatter, // Allows only single line
+            ],
             style: TextStyle(
                 color: widget.isDarkMode ? Colors.white : Colors.black87),
             decoration: const InputDecoration(
@@ -270,8 +272,9 @@ class _LoginWidgetState extends State<LoginWidget> {
             controller: widget.passwordController,
             autofillHints: const [AutofillHints.password],
             inputFormatters: [
-                    FilteringTextInputFormatter.singleLineFormatter, // Allows only single line
-                  ],
+              FilteringTextInputFormatter
+                  .singleLineFormatter, // Allows only single line
+            ],
             obscureText: true,
             style: TextStyle(
                 color: widget.isDarkMode ? Colors.white : Colors.black87),

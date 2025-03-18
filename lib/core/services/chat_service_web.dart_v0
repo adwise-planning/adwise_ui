@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:html';
 //import 'chat_service_interface.dart';
-import 'package:Adwise/core/services/logger_service.dart';
+import 'package:adwise/core/services/logger_service.dart';
 
 class ChatService {
   WebSocket? _webSocket;

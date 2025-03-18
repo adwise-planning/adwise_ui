@@ -1,6 +1,8 @@
-import 'package:Adwise/core/services/logger_service.dart';
-import 'package:Adwise/presentation/screens/auth/otp_screen.dart';
-import 'package:Adwise/presentation/screens/home/service_selection_screen.dart';
+import 'package:adwise/core/constants/app_constants.dart';
+import 'package:adwise/core/models/authentication.dart';
+import 'package:adwise/core/services/logger_service.dart';
+import 'package:adwise/presentation/screens/auth/otp_screen.dart';
+import 'package:adwise/presentation/screens/home/service_selection_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -12,6 +14,7 @@ class AuthState {
   final AuthStateStatus status;
   final String? error;
   final String? authToken;
+  final String? refreshToken;
   final String? uuid;
   final String? userId;
   final String? phone;
@@ -20,6 +23,7 @@ class AuthState {
       {this.status = AuthStateStatus.initial,
       this.error,
       this.authToken,
+      this.refreshToken,
       this.uuid,
       this.userId,
       this.phone});
@@ -28,6 +32,7 @@ class AuthState {
       {AuthStateStatus? status,
       String? error,
       String? authToken,
+      String? refreshToken,
       String? userId,
       String? uuid,
       String? phone}) {
@@ -35,6 +40,7 @@ class AuthState {
       status: status ?? this.status,
       error: error ?? this.error,
       authToken: authToken ?? this.authToken,
+      refreshToken: refreshToken ?? this.refreshToken,
       userId: userId ?? this.userId,
       uuid: uuid ?? this.uuid,
       phone: phone ?? this.phone,
@@ -52,36 +58,33 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   //  Send OTP to the provided phone number
-  Future<void> sendOTP(String countryCode, String phone) async {
+  Future<void> requestOTP(String countryCode, String phone) async {
     state = state.copyWith(status: AuthStateStatus.loading, phone: phone);
+    Authentication user = Authentication();
+    user.phoneCountryCode = countryCode;
+    user.phoneNumber = phone;
+    //user.passwordHash = "pass";
+    user.isEmailLogin = false;
+
     try {
       // state = state.copyWith(status: AuthStateStatus.success);
       final response = await http.post(
-        Uri.parse('https://adwise-service.onrender.com/api/login'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'sec-fetch-dest': '',
-          'mode': 'no-cors',
-          'x-render-origin-server': 'Render',
-          'Server': 'render',
-          'Access-Control-Allow-Credentials': 'false',
-        },
-        body: jsonEncode({
-          "country_code": countryCode,
-          "phone_number": phone,
-          "password": "pass",
-          "is_email_login": false
-        }),
+        Uri.parse(AppConstants.requestOTPURL),
+        headers: AppConstants.requestHeader,
+        body: {"country_code":countryCode, "phone_number":user.phoneNumber},
       );
+      
       // slogger.info('response: $response.statusCode');
-      print(response.statusCode);
-      if (response.statusCode == 200) {
+      print("Status Code:" + response.statusCode.toString());
+      print("Body: "+ response.body);
+      
+      if (response.statusCode == 201) {
         print(response.body);
         final data = jsonDecode(response.body);
         state = state.copyWith(
           status: AuthStateStatus.success,
-          authToken: data['token'],
+          authToken: data['access_token'],
+          refreshToken: data['refresh_token'],
           uuid: data['uuid'],
           phone: phone,
         );
@@ -93,14 +96,17 @@ class AuthNotifier extends StateNotifier<AuthState> {
       }
 
       // Always success
-      state = state.copyWith(status: AuthStateStatus.success, phone: phone);
+      //state = state.copyWith(status: AuthStateStatus.success, phone: phone);
+      
       print(_context);
       print(_context!.mounted);
+      
       if (_context != null && _context!.mounted) {
         Navigator.push(
           _context!,
           MaterialPageRoute(
             builder: (context) => OtpScreen(
+              countryCode: countryCode,
               phoneNumber: phone,
             ),
           ),
@@ -122,6 +128,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
     state = state.copyWith(status: AuthStateStatus.loading);
     try {
       // TO DO: Integrate with backend
+      
+
+
       await Future.delayed(const Duration(seconds: 2)); // Mock delay
       state = state.copyWith(status: AuthStateStatus.success);
       if (context.mounted) {
@@ -180,20 +189,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
       'device': {"device_id": "x0_2K22PS", "name": "samsung x1"}
     };
 
-    logger.info("Status Code: ${body}");
+    logger.info("Request Body: $body");
 
     try {
       final response = await http.post(
-        Uri.parse('https://websocket-server-7y5w.onrender.com/login'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'sec-fetch-dest': '',
-          'mode': 'no-cors',
-          'x-render-origin-server': 'Render',
-          'Server': 'render',
-          'Access-Control-Allow-Credentials': 'false',
-        },
+        Uri.parse(AppConstants.userLoginURL),
+        headers: AppConstants.requestHeader,
         body: jsonEncode(body),
       );
 
@@ -203,10 +204,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
       if (response.statusCode == 200) {
         final responseBody = jsonDecode(response.body);
         final authToken = responseBody['access_token'];
-        print('authToken: ' + authToken);
-        final userId =
-            responseBody['user_id']; // Adjust based on actual API response
-
+        
+        //print('authToken: ' + authToken);
+        final userId = responseBody['user_id']; // Adjust based on actual API response
+        
+        //print('UserId: ' + userId);
+        
         state = state.copyWith(
           status: AuthStateStatus.success,
           authToken: authToken,

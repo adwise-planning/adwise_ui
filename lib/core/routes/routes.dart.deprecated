@@ -1,9 +1,9 @@
-import 'package:Adwise/core/services/auth_provider.dart';
-import 'package:Adwise/presentation/screens/auth/login_screen.dart';
-import 'package:Adwise/presentation/screens/auth/otp_screen.dart';
-import 'package:Adwise/presentation/screens/chat/chat_screen.dart';
-import 'package:Adwise/presentation/screens/home/home_screen.dart';
-import 'package:Adwise/presentation/screens/home/service_selection_screen.dart';
+import 'package:adwise/core/services/auth_provider.dart';
+import 'package:adwise/presentation/screens/auth/login_screen.dart';
+import 'package:adwise/presentation/screens/auth/otp_screen.dart';
+import 'package:adwise/presentation/screens/chat/chat_screen.dart';
+import 'package:adwise/presentation/screens/home/home_screen.dart';
+import 'package:adwise/presentation/screens/home/service_selection_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 

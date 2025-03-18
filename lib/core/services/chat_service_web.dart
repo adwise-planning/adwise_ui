@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'package:Adwise/core/services/chat_service_interface.dart';
-import 'package:Adwise/core/services/logger_service.dart';
+import 'package:adwise/core/constants/app_constants.dart';
+import 'package:adwise/core/services/chat_service_interface.dart';
+import 'package:adwise/core/services/logger_service.dart';
 import 'dart:html' as html; // Import for Dart web
 
 class ChatServiceWeb implements ChatService {
@@ -8,19 +9,22 @@ class ChatServiceWeb implements ChatService {
   final StreamController<String> _messageController =
       StreamController<String>.broadcast();
 
+  @override
   Stream<String> get messageStream => _messageController.stream;
 
   final logger = AppLogger();
 
+  @override
   void connect(String authToken) async {
     try {
       // final url = 'wss://adwise-service.onrender.com/ws';
-      final url = 'ws://websocket-server-7y5w.onrender.com/ws?token=';
+      //final url = 'ws://websocket-server-7y5w.onrender.com/ws?token=';
+      final url = AppConstants.webSocketURL;
 
       logger.info('Connecting to WebSocket server at: $url');
 
       // _webSocket = html.WebSocket(url, protocols: null, headers: {"Authorization": "Bearer $authToken"});
-      _webSocket = await html.WebSocket(url + authToken);
+      _webSocket = html.WebSocket(url + authToken);
 
       _webSocket!.onMessage.listen((html.MessageEvent message) {
         logger.info('Received message: ${message.data}');
@@ -44,6 +48,7 @@ class ChatServiceWeb implements ChatService {
     }
   }
 
+  @override
   void sendMessage(String message) {
     if (_webSocket != null && _webSocket!.readyState == html.WebSocket.OPEN) {
       logger.info('Sending message: $message');
@@ -53,6 +58,7 @@ class ChatServiceWeb implements ChatService {
     }
   }
 
+  @override
   void disconnect() {
     _webSocket?.close();
     _messageController.close();
