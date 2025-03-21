@@ -2,6 +2,7 @@ import 'package:adwise/core/constants/app_constants.dart';
 import 'package:adwise/core/constants/global.dart';
 import 'package:adwise/core/constants/global_background.dart';
 import 'package:adwise/core/services/logger_service.dart';
+import 'package:adwise/presentation/introduction_animation/introduction_animation_screen.dart';
 import 'package:adwise/presentation/screens/auth/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,8 +30,8 @@ class AdwiseApp extends StatelessWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: ThemeMode.system,
-      home: LoginScreen(), // Set the initial screen to LoginScreen
-
+      //home: LoginScreen(), // Set the initial screen to LoginScreen
+        home: IntroductionAnimationScreen(),
       // builder: (context, child) {
       //   return GlobalBackgroundWidget(child: child ?? const SizedBox()); // Wrap the app content with the background widget
       // },

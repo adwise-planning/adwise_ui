@@ -55,3 +55,4 @@ flutter:
     # Add assets from the images directory to the application.
     - assets/images/background4.png
     - assets/images/
+    - assets/introduction_animation/

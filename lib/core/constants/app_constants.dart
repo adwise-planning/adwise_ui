@@ -12,6 +12,13 @@ abstract class AppConstants {
   static final String fontFamily = 'SFPro';
   static final String backgroundImagePath = 'assets/images/background4.png';
   static final String logo = 'assets/images/logo-Transparent.png';
+  
+  static final String care_image ='assets/images/care_image.png';
+  static final String introduction_animation ='assets/images/introduction_animation.png';
+  static final String introduction_image ='assets/images/introduction_image.png';
+  static final String mood_dairy_image ='assets/images/mood_dairy_image.png';
+  static final String relax_image ='assets/images/relax_image.png';
+  static final String welcome ='assets/images/welcome.png';
 
   // Text
   static final String appName = "Adwise";
