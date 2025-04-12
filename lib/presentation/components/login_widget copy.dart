@@ -101,7 +101,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   value: widget.selectedCountryCode,
                   dropdownColor:
                       widget.isDarkMode ? Colors.grey[900] : Colors.white,
-                  icon: const Icon(Icons.arrow_drop_down,
+                  icon: Icon(Icons.arrow_drop_down,
                       color: AppConstants.primaryColor),
                   style: TextStyle(
                       color: widget.isDarkMode ? Colors.white : Colors.black87,
@@ -227,7 +227,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             ],
             style: TextStyle(
                 color: widget.isDarkMode ? Colors.white : Colors.black87),
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               border: InputBorder.none,
               hintText: 'Email Address',
               hintStyle: TextStyle(color: Colors.grey),
@@ -278,7 +278,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             obscureText: true,
             style: TextStyle(
                 color: widget.isDarkMode ? Colors.white : Colors.black87),
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               border: InputBorder.none,
               hintText: 'Password',
               hintStyle: TextStyle(color: Colors.grey),

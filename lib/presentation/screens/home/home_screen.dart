@@ -162,7 +162,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: AppConstants.primaryColor,
               ),
               child: Column(
@@ -190,7 +190,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.person_outline, color: AppConstants.primaryColor), // Themed icons
+              leading: Icon(Icons.person_outline, color: AppConstants.primaryColor), // Themed icons
               title: const Text('Profile', style: TextStyle(fontWeight: FontWeight.w500)), // Style text
               onTap: () {
                 // TO DO: Navigate to profile screen
@@ -201,7 +201,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               },
             ),
             ListTile(
-              leading: const Icon(Icons.settings_outlined, color: AppConstants.primaryColor),
+              leading: Icon(Icons.settings_outlined, color: AppConstants.primaryColor),
               title: const Text('Settings', style: TextStyle(fontWeight: FontWeight.w500)),
               onTap: () {
                 // TO DO: Navigate to settings screen
@@ -212,7 +212,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               },
             ),
             ListTile(
-              leading: const Icon(Icons.logout, color: AppConstants.primaryColor),
+              leading: Icon(Icons.logout, color: AppConstants.primaryColor),
               title: const Text('Logout', style: TextStyle(fontWeight: FontWeight.w500)),
               onTap: () {
                 // TO DO: Implement logout functionality
@@ -344,7 +344,7 @@ class CallsTab extends StatelessWidget {
               ],
             ),
             trailing: IconButton( // IconButton for call action
-              icon: const Icon(Icons.call, color: AppConstants.accentColor),
+              icon: Icon(Icons.call, color: AppConstants.accentColor),
               tooltip: 'Make voice call',
               onPressed: () {
                 // TO DO: Implement call functionality

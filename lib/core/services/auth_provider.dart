@@ -1,3 +1,4 @@
+
 import 'package:adwise/core/constants/app_constants.dart';
 import 'package:adwise/core/models/authentication.dart';
 import 'package:adwise/core/services/logger_service.dart';
@@ -58,7 +59,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   //  Send OTP to the provided phone number
-  Future<void> requestOTP(String countryCode, String phone) async {
+  Future<void> requestOTP(bool isPhoneLogin, String email, countryCode, phone) async {
     state = state.copyWith(status: AuthStateStatus.loading, phone: phone);
     Authentication user = Authentication();
     user.phoneCountryCode = countryCode;

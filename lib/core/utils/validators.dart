@@ -1,5 +1,5 @@
 class Validators {
-  static String? phoneValidator(String? value) {
+  static String? phoneValidator_old(String? value) {
     if (value == null || value.isEmpty) return 'Phone required';
     if (!RegExp(r'^\+?[0-9]{10,}$').hasMatch(value)) {
       return 'Invalid phone number';
@@ -8,7 +8,7 @@ class Validators {
   }
 
   // Email Validator
-  static String? emailValidator(String? value) {
+  static String? emailValidator_old(String? value) {
     if (value == null || value.isEmpty) {
       return 'Email is required';
     }
@@ -24,5 +24,30 @@ class Validators {
     return (value == null || value.isEmpty)
         ? 'Password is required'
         : (value.length < 4 ? 'Password must be at least 4 characters' : null);
+  }
+
+
+  static String? phoneValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your phone number';
+    }
+    final phoneRegExp = RegExp(r'^[0-9]+$');
+    if (!phoneRegExp.hasMatch(value)) {
+      return 'Please enter a valid number';
+    }
+    // Add more specific length checks if needed based on country rules
+    return null; // Valid
+  }
+
+  static String? emailValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your email address';
+    }
+    final emailRegExp = RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    if (!emailRegExp.hasMatch(value)) {
+      return 'Please enter a valid email address';
+    }
+    return null; // Valid
   }
 }

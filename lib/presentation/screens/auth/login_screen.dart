@@ -2,7 +2,7 @@
 import 'package:adwise/core/constants/app_constants.dart';
 import 'package:adwise/core/models/authentication.dart';
 import 'package:adwise/core/services/auth_provider.dart';
-import 'package:adwise/presentation/screens/auth/login_widget.dart';
+import 'package:adwise/presentation/components/login_widget.dart';
 import 'package:adwise/presentation/screens/auth/registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,7 +36,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final screenHeight = MediaQuery.of(context).size.height;
     //final screenWidth = MediaQuery.of(context).size.width;
-    
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -45,6 +45,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         extendBody: true,
         body: Stack(
           children: [
+
+
             //Background Image
             SizedBox.expand(
               child: Image.asset(
@@ -64,6 +66,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                     
+            Image.asset(
+              "/images/login_dark.png",
+              fit: BoxFit.cover,
+            ),
                     // App Logo and Title
                     Center(
                       child: Column(
@@ -137,7 +144,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         isPhoneLogin: _isPhoneLogin,
                         phoneController: _phoneController,
                         emailController: _emailController,
-                        passwordController: _passwordController,
                         selectedCountryCode: _selectedCountryCode,
                         countries: AppConstants.countries,
                         onCountryChanged: (newCode) =>
@@ -158,7 +164,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                       .read(authProvider.notifier)
                                       .clearError(); // Ensure authProvider has a method to reset errors
                                   if (_isPhoneLogin) {
-                                    ref.read(authProvider.notifier).requestOTP(
+                                    ref.read(authProvider.notifier).requestOTP(_isPhoneLogin, _emailController.text,
                                         _selectedCountryCode,
                                         _phoneController.text);
                                   } else {
@@ -219,7 +225,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                         countryCode: _selectedCountryCode,
                                         phoneNumber: _phoneController.text,
                                         email: _emailController.text,
-                                        password: _passwordController.text,
                                       ),
                                     ),
                                   );
